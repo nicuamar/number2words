@@ -1,6 +1,12 @@
-/*
- * This class allows to convert a numeric value into words in different languages
+/**
+ * This class allows to convert a numeric value into words in English
  * For example: "1245" will be converted to "One thousand two hundred forty five"
+ * This class is useful a scriptlet in Jasper reports
+ *
+ * Code based on http://www.rgagnon.com/javadetails/java-0426.html by R. Gagnon (CC)
+ *
+ * @author Mambu GmbH www.mambu.com
+ *
  */
 
 package com.mambu.resources;
@@ -11,7 +17,7 @@ import java.text.DecimalFormat;
 
 public class ConvertNumbersToWords extends JRDefaultScriptlet {
 
-
+    /* Numbes in English up to tens */
     private static final String[] tensNames = {
         "",
         " ten",
@@ -25,6 +31,7 @@ public class ConvertNumbersToWords extends JRDefaultScriptlet {
         " ninety"
     };
 
+    /* Numbers in English up to 19 */
     private static final String[] numNames = {
         "",
         " one",
@@ -48,6 +55,12 @@ public class ConvertNumbersToWords extends JRDefaultScriptlet {
         " nineteen"
     };
 
+    /* Convert a number which is less than one thousand
+     *
+     * @param int number    Numeric value to convert into words
+     *
+     * @return String       The English textual representation of the number
+     */
     private static String convertLessThanOneThousand(int number) {
         String soFar;
 
@@ -70,7 +83,13 @@ public class ConvertNumbersToWords extends JRDefaultScriptlet {
         return numNames[number] + " hundred" + soFar;
     }
 
-
+    /*
+     * Convert a number into its English representation
+     *
+     * @param long number   The number to convert
+     *
+     * @return String       English representation of the number
+     */
     public static String convertToEnglish(long number) {
         // 0 to 999 999 999 999
         if (number == 0) {
@@ -103,12 +122,10 @@ public class ConvertNumbersToWords extends JRDefaultScriptlet {
             tradBillions = "";
             break;
         case 1 :
-            tradBillions = convertLessThanOneThousand(billions)
-            + " billion ";
+            tradBillions = convertLessThanOneThousand(billions) + " billion ";
             break;
         default :
-            tradBillions = convertLessThanOneThousand(billions)
-            + " billion ";
+            tradBillions = convertLessThanOneThousand(billions) + " billion ";
         }
 
         String result =  tradBillions;
@@ -120,12 +137,10 @@ public class ConvertNumbersToWords extends JRDefaultScriptlet {
             tradMillions = "";
             break;
         case 1 :
-            tradMillions = convertLessThanOneThousand(millions)
-            + " million ";
+            tradMillions = convertLessThanOneThousand(millions) + " million ";
             break;
         default :
-            tradMillions = convertLessThanOneThousand(millions)
-            + " million ";
+            tradMillions = convertLessThanOneThousand(millions) + " million ";
         }
 
         result =  result + tradMillions;
@@ -139,8 +154,7 @@ public class ConvertNumbersToWords extends JRDefaultScriptlet {
             tradHundredThousands = "one thousand ";
             break;
         default :
-            tradHundredThousands = convertLessThanOneThousand(hundredThousands)
-            + " thousand ";
+            tradHundredThousands = convertLessThanOneThousand(hundredThousands) + " thousand ";
         }
 
         result =  result + tradHundredThousands;
@@ -149,7 +163,7 @@ public class ConvertNumbersToWords extends JRDefaultScriptlet {
         tradThousand = convertLessThanOneThousand(thousands);
         result =  result + tradThousand;
 
-        // remove extra spaces!
+        // remove spaces
         return result.replaceAll("^\\s+", "").replaceAll("\\b\\s{2,}\\b", " ");
     }
 
