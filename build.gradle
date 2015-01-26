@@ -1,0 +1,126 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: "maven-publish"
+
+group = 'com.mambu.resources'
+version = '1.0.0-SNAPSHOT'
+def mavenArtifactId = 'number2words'
+
+sourceCompatibility = 1.7
+
+repositories {
+	jcenter()
+	mavenLocal()
+}
+
+// DEPENDENCIES
+
+dependencies {
+	testCompile "junit:junit:4.+"
+}
+
+// SOURCE FOLDERS
+
+sourceSets {
+	main {
+		java {
+			srcDir 'src/java'
+		}
+		resources {
+			srcDir 'src/resources'
+		}
+	}
+
+	test {
+		java {
+			srcDir 'test/java'
+		}
+		resources {
+			srcDir 'test/resources'
+		}
+	}
+}
+
+// CUSTOM TASKS
+
+task javadocJar (type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from javadoc.destinationDir
+}
+
+task sourceJar (type : Jar) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+// TEST CONFIGURATION
+
+test {
+	testLogging {
+		// Show that tests are run in the command-line output
+		events 'started', 'passed'
+	}
+}
+
+// MAVEN PUBLISHING CONFIGURATION
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+
+			// pom.xml details
+
+			groupId group
+			artifactId mavenArtifactId
+			version version
+
+			// publish project's jar archive
+			from components.java
+
+			// publish project's javadoc jar
+			artifact (javadocJar) {
+				classifier = 'javadoc'
+			}
+
+			// publish project's source jar
+			artifact (sourceJar) {
+				classifier = 'sources'
+			}
+
+		}
+	}
+
+	// publish artifact to local directory
+	// can change this to publish to a local or central rep
+	repositories {
+		maven {
+			url "file:/${project.projectDir}/artifacts"
+		}
+	}
+}
+
+// ASSEMBLE configuration
+
+jar {
+	// MANIFEST.MF details
+	manifest {
+		attributes 'Implementation-Title': 'number2words',
+				   'Implementation-Version': version
+	}
+}
+
+javadocJar {
+	// MANIFEST.MF details
+	manifest {
+		attributes 'Implementation-Title': 'number2words',
+				   'Implementation-Version': version
+	}
+}
+
+sourceJar {
+	// MANIFEST.MF details
+	manifest {
+		attributes 'Implementation-Title': 'number2words',
+				   'Implementation-Version': version
+	}
+}
