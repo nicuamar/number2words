@@ -46,6 +46,10 @@ public class EnglishNumberTokenizer {
 	 * Maximum value a group quantifier can have (for English we limit it to 1 billion).
 	 */
 	private static final BigDecimal MAX_GROUP_QUANTIFIER = BigDecimal.TEN.pow(9);
+	/**
+	 * String used to separate the numbers before and after the decimal point.
+	 */
+	private static final String DECIMAL_POINT_SEPARATOR = "and";
 
 	/**
 	 * Tokenizes a non-negative decimal number.
@@ -69,7 +73,7 @@ public class EnglishNumberTokenizer {
 			final ValueToken fractionalPartToken = tokenize(fractionalPart);
 
 			// 3. merge the two parts
-			return new DecimalValueToken(integerPartToken, "and", fractionalPartToken);
+			return new DecimalValueToken(integerPartToken, DECIMAL_POINT_SEPARATOR, fractionalPartToken);
 
 		}
 
