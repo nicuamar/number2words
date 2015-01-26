@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: "maven-publish"
+apply plugin: 'maven-publish'
+apply plugin: 'jacoco'
 
 group = 'com.mambu.resources'
 version = '1.0.0-SNAPSHOT'
@@ -16,7 +17,13 @@ repositories {
 // DEPENDENCIES
 
 dependencies {
-	testCompile "junit:junit:4.+"
+	testCompile 'junit:junit:4.+'
+}
+
+// CODE COVERAGE
+jacoco {
+	toolVersion = '0.7.2.201409121644'
+	reportsDir = file("$buildDir/reports/")
 }
 
 // SOURCE FOLDERS
@@ -60,6 +67,26 @@ test {
 		// Show that tests are run in the command-line output
 		events 'started', 'passed'
 	}
+
+	jacoco {
+		append = false
+		destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+		classDumpFile = file("$buildDir/jacoco/classpathdumps")
+	}
+}
+
+//
+// JACOCO REPORTS CONFIGURATION
+// to get the test coverage run "gradle clean test jacoco"
+//
+jacocoTestReport {
+	group = 'reporting'
+	description = 'Generate Jacoco coverage reports after running tests.'
+	reports {
+		xml.enabled true
+		html.enabled true
+		csv.enabled false
+	}
 }
 
 // MAVEN PUBLISHING CONFIGURATION
@@ -94,7 +121,7 @@ publishing {
 	// can change this to publish to a local or central rep
 	repositories {
 		maven {
-			url "file:/${project.projectDir}/artifacts"
+			url "file:/$buildDir/artifacts"
 		}
 	}
 }
