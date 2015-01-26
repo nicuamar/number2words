@@ -18,8 +18,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.mambu.number2words.api.NumberTranscriber;
-import com.mambu.number2words.internal.english.EnglishNumberTranscriber;
 
+/**
+ * Tests for the English number transcription.
+ * 
+ * @author aatasiei
+ *
+ */
 public class EnglishNumberTranscriberTest {
 
 	private NumberTranscriber transcriber = new EnglishNumberTranscriber();

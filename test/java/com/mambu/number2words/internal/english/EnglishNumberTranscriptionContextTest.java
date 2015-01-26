@@ -12,7 +12,7 @@ import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
 import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
 
 /**
- * Tests for
+ * Tests for the English language number to words mappings.
  * 
  * @author aatasiei
  *

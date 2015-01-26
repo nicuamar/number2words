@@ -6,6 +6,12 @@ import java.util.Locale;
 
 import org.junit.Test;
 
+/**
+ * Factory tests.
+ * 
+ * @author aatasiei
+ *
+ */
 public class NumberTranscriberFactoryTest {
 
 	@Test
