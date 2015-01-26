@@ -25,6 +25,7 @@ public final class NumberTranscriberFactory {
 	 * @param locale
 	 *            Locale used to identify the language used when transcribing the numbers. Not <code>null</code>.
 	 * @return a {@link NumberTranscriber} instance.
+	 * @trows {@link IllegalArgumentException} when Locale is not supported.
 	 */
 	public static NumberTranscriber newTranscriber(Locale locale) {
 		if (locale.getLanguage().equals(ENGLISH_CODE)) {
