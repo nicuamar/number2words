@@ -1,6 +1,5 @@
 package com.mambu.number2words.parsing.interfaces;
 
-
 /**
  * A {@link ValueToken} is an immutable object that resulted from the tokenization of a number and can be transcribed
  * into words.
