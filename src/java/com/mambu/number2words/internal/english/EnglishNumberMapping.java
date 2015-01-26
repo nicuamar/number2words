@@ -59,30 +59,52 @@ enum EnglishNumberMapping implements ValueMapping {
 	private boolean quantifier;
 
 	/**
+	 * Constructor for value mappings (non quantifiers).
 	 * 
 	 * @param value
+	 *            - long value represented.
 	 * @param word
+	 *            - the String representation.
 	 */
 	EnglishNumberMapping(long value, String word) {
 		this(value, word, false);
 	}
 
+	/**
+	 * Constructor for value mappings.
+	 * 
+	 * @param value
+	 *            - long value represented.
+	 * @param word
+	 *            - the String representation.
+	 * @param isQuantifier
+	 *            - true, if the value is a quantifier
+	 */
 	EnglishNumberMapping(long value, String word, boolean isQuantifier) {
 		this.value = value;
 		this.word = word;
 		this.quantifier = isQuantifier;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getWord() {
 		return word;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Long getValue() {
 		return value;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean isQuantifier() {
 		return quantifier;

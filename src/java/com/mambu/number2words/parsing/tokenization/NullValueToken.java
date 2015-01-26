@@ -13,6 +13,9 @@ import com.mambu.number2words.parsing.interfaces.Visitor;
  */
 public class NullValueToken implements ValueToken {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public <V> V accept(Visitor<V> visitor) {
 		return visitor.visit(this);
