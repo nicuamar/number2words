@@ -32,7 +32,7 @@ public class ConvertNumbersToWords extends JRDefaultScriptlet {
     };
 
     /* Numbers in English up to 19 */
-    private static final String[] numNames = {
+    private static final String[] numNames = { 
         "",
         " one",
         " two",
