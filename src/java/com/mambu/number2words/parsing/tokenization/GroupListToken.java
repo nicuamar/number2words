@@ -12,7 +12,7 @@ import com.mambu.number2words.parsing.interfaces.Visitor;
  * The groups are defined differently depending on the language and are usually 3 or 4 digits long.
  * <p>
  * For example, in English, 10100200 would be broken into 3 groups: 10(000000), 100(000), and 200. All the extra zeros
- * are stored actually stored in the "order" the tokens appear in the list.
+ * are actually stored in the "order" the tokens appear in the list.
  * 
  * @author aatasiei
  *

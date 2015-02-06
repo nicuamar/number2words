@@ -14,6 +14,10 @@ package com.mambu.number2words.parsing.interfaces;
  */
 public interface ValueMapping {
 
+	public static enum MappingType {
+		SIMPLE, GROUP_QUANTIFIER, SUBGROUP_QUANTIFIER;
+	}
+
 	/**
 	 * Gets the word associated with this mapping.
 	 * 
@@ -34,6 +38,8 @@ public interface ValueMapping {
 	 * 
 	 * @return true, if the mapping does just designate a quantifier.
 	 */
-	boolean isQuantifier();
+	boolean isGroupQuantifier();
+
+	boolean isSubGroupQuantifier();
 
 }

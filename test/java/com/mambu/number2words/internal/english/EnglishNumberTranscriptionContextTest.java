@@ -29,6 +29,11 @@ public class EnglishNumberTranscriptionContextTest {
 		visitor = new EnglishTokenVisitor(builder, evaluator);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testNegative() {
+		new MappedValueToken(-1L).accept(visitor);
+	}
+
 	@Test
 	public void testZeroToNine() {
 		String[] expectedValues = new String[] { "zero", "one", "two", "three", "four", "five", "six", "seven",

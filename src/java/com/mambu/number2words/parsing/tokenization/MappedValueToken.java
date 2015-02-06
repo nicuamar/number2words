@@ -25,7 +25,7 @@ public class MappedValueToken implements ValueToken {
 	 */
 	public MappedValueToken(long value) {
 		if (value < 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Negative values are not currently supported.");
 		}
 		this.value = value;
 	}

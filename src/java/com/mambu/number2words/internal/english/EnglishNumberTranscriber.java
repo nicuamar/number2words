@@ -1,12 +1,10 @@
 package com.mambu.number2words.internal.english;
 
-import java.math.BigDecimal;
-
-import com.mambu.number2words.api.NumberTranscriber;
-import com.mambu.number2words.internal.english.tokenization.EnglishNumberTokenizer;
+import com.mambu.number2words.internal.common.AbstractNumberTranscriber;
 import com.mambu.number2words.internal.english.visitors.EnglishTokenVisitor;
+import com.mambu.number2words.parsing.interfaces.NumberTokenizer;
 import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
-import com.mambu.number2words.parsing.interfaces.ValueToken;
+import com.mambu.number2words.parsing.interfaces.Visitor;
 
 /**
  * Number transcriber for the English language.
@@ -14,39 +12,29 @@ import com.mambu.number2words.parsing.interfaces.ValueToken;
  * @author aatasiei
  *
  */
-public class EnglishNumberTranscriber implements NumberTranscriber {
+public class EnglishNumberTranscriber extends AbstractNumberTranscriber<EnglishNumberMapping> {
 
 	/**
-	 * Tokenizer for English. Implementation is state-less and is thread safe.
+	 * Constructor that is used to initialize this transcriber with a custom tokenizer or context. This might be useful
+	 * in testing.
+	 * 
+	 * @param tokenizer
+	 *            - tokenizer for English. Not <code>null</code>.
+	 * @param context
+	 *            - evaluation context when transcribing tokens. Not <code>null</code>.
 	 */
-	private final static EnglishNumberTokenizer TOKENIZER = new EnglishNumberTokenizer();
-	/**
-	 * Evaluation context used to transcribe the tokens.
-	 */
-	private final static TranscriptionContext CONTEXT = new EnglishNumberTranscriptionContext();
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toWords(BigDecimal number) {
-
-		StringBuilder sb = new StringBuilder();
-		appendWords(sb, number);
-
-		return sb.toString();
+	public EnglishNumberTranscriber(final NumberTokenizer tokenizer,
+			final TranscriptionContext<EnglishNumberMapping> context) {
+		super(tokenizer, context);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void appendWords(StringBuilder builder, BigDecimal number) {
-
-		ValueToken root = TOKENIZER.tokenize(number);
-
-		root.accept(new EnglishTokenVisitor(builder, CONTEXT));
-
+	protected Visitor<Void> getTokenVisitor(final StringBuilder builder,
+			final TranscriptionContext<EnglishNumberMapping> context) {
+		return new EnglishTokenVisitor(builder, context);
 	}
 
 }

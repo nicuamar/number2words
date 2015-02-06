@@ -11,7 +11,7 @@ import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
  * @author aatasiei
  *
  */
-class EnglishNumberTranscriptionContext implements TranscriptionContext {
+public class EnglishNumberTranscriptionContext implements TranscriptionContext<EnglishNumberMapping> {
 
 	/**
 	 * {@inheritDoc}
