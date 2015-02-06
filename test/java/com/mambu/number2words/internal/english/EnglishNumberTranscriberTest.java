@@ -82,7 +82,7 @@ public class EnglishNumberTranscriberTest {
 	@Test
 	public void testValuesFromFile() throws FileNotFoundException, IOException, ParseException {
 
-		try (InputStream file = this.getClass().getResourceAsStream("/english_numbers_test.properties");
+		try (InputStream file = this.getClass().getResourceAsStream("/english_numbers_test.txt");
 				BufferedReader reader = new BufferedReader(new InputStreamReader(file))) {
 
 			int lineNo = 0;
