@@ -11,7 +11,7 @@ import com.mambu.number2words.parsing.interfaces.ValueMapping;
  * to a certain language.
  * <p>
  * Presumes that the {@link Enum} has all the mappings in strict ascending order, with the smallest being zero and the
- * largest being the largest group quantifier (for example, 1 billion for English (see {@link #groupQuantifiers(Class)}
+ * largest being the largest group quantifier (for example, 1 trillion for English (see {@link #groupQuantifiers(Class)}
  * ).
  * 
  * @author aatasiei

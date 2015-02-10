@@ -44,15 +44,16 @@
 9_999_999_999	nine billion nine hundred ninety nine million nine hundred ninety nine thousand nine hundred ninety nine
 
 999_999_999_999	nine hundred ninety nine billion nine hundred ninety nine million nine hundred ninety nine thousand nine hundred ninety nine
+1_000_000_000_000	one trillion
+1_000_001_000_001	one trillion one million one
 
 #
 # OVERFLOWING VALUES
 #
-1_000_000_000_000	one thousand billion
-1_000_001_000_001	one thousand billion one million one
-1_000_000_000_000_000	one million billion
-1_000_000_000_000_000_000	one billion billion
-1_000_000_000_000_000_000_000	one thousand billion billion
+1_000_000_000_000_000	one thousand trillion
+1_000_000_000_000_000_000	one million trillion
+1_000_000_000_000_000_000_000	one billion trillion
+1_000_000_000_000_000_000_000_000	one trillion trillion
 
 #
 # SMALL VALUES with DECIMALS

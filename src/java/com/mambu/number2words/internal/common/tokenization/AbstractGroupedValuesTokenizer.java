@@ -138,7 +138,7 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 
 	/**
 	 * The value of the largest group quantifier (when iterating over all of them in ascending order). For example, in
-	 * English, MILLION has index 2 (0 based counting - 0 for units, 1 for THOUSAND).
+	 * English, a chosen maximum value could be 1 trillion.
 	 * 
 	 * @return the maximum group quantifier.
 	 */
@@ -314,7 +314,7 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 	private void addOverflowingNumberTokens(final List<ValueToken> groups, BigInteger toTokenize,
 			BigInteger groupSeparator) {
 		// since the groups are added in reverse order
-		// the "billion" token needs to be added before the rest of the number
+		// the "trillion" token needs to be added before the rest of the number
 		groups.add(mappedValue(getMaximumGroupQuantifier().longValue()));
 		groups.add(tokenize(toTokenize, groupSeparator));
 	}

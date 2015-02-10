@@ -32,7 +32,9 @@ public enum EnglishNumberMapping implements ValueMapping {
 
 	MILLION(1_000_000, "million", MappingType.GROUP_QUANTIFIER),
 
-	BILLION(1_000_000_000, "billion", MappingType.GROUP_QUANTIFIER);
+	BILLION(1_000_000_000, "billion", MappingType.GROUP_QUANTIFIER),
+
+	TRILLION(1_000_000_000_000L, "trillion", MappingType.GROUP_QUANTIFIER);
 
 	/**
 	 * Holds the direct mappings from value to enum instance.
