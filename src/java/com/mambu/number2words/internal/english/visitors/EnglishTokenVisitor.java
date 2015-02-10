@@ -30,7 +30,7 @@ public class EnglishTokenVisitor extends AbstractTranscribingVisitor {
 	 *            - the context that holds the number to word mapping information.
 	 * 
 	 */
-	public EnglishTokenVisitor(StringBuilder builder, TranscriptionContext<?> context) {
+	public EnglishTokenVisitor(StringBuilder builder, TranscriptionContext context) {
 		super(context, builder, WORD_SEPARATOR);
 	}
 

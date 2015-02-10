@@ -1,4 +1,4 @@
-package com.mambu.number2words.internal.simplifiedchinese.financial;
+package com.mambu.number2words.internal.simplifiedchinese.financial.mapping;
 
 import java.util.HashMap;
 import java.util.Map;

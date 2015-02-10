@@ -1,7 +1,7 @@
 package com.mambu.number2words.internal.simplifiedchinese.financial.tokenization;
 
-import com.mambu.number2words.internal.english.tokenization.AbstractGroupedValuesTokenizer;
-import com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseFinancialNumberMapping;
+import com.mambu.number2words.internal.common.tokenization.AbstractGroupedValuesTokenizer;
+import com.mambu.number2words.internal.simplifiedchinese.financial.mapping.SimplifiedChineseFinancialNumberMapping;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
 import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
 
@@ -27,10 +27,16 @@ public class SimplifiedChineseFinancialNumberTokenizer extends
 	 */
 	private static final String DECIMAL_POINT_SEPARATOR = "点";
 
+	/**
+	 * Default constructor.
+	 */
 	public SimplifiedChineseFinancialNumberTokenizer() {
 		super(SimplifiedChineseFinancialNumberMapping.class, DECIMAL_POINT_SEPARATOR);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected ValueToken parseSubGroup(long groupValue, final long subGroupQuantifier) {
 

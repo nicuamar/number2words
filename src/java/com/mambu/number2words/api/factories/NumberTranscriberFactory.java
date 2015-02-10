@@ -5,11 +5,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.mambu.number2words.api.NumberTranscriber;
-import com.mambu.number2words.internal.english.EnglishNumberMapping;
 import com.mambu.number2words.internal.english.EnglishNumberTranscriber;
 import com.mambu.number2words.internal.english.EnglishNumberTranscriptionContext;
 import com.mambu.number2words.internal.english.tokenization.EnglishNumberTokenizer;
-import com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseFinancialNumberMapping;
 import com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseFinancialNumberTranscriber;
 import com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseFinancialNumberTranscriptionContext;
 import com.mambu.number2words.internal.simplifiedchinese.financial.tokenization.SimplifiedChineseFinancialNumberTokenizer;
@@ -23,6 +21,9 @@ import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
  *
  */
 public final class NumberTranscriberFactory {
+
+	// FUTURE: (aatasiei) look at providing a way to register transcribers and make the configuration in some other
+	// static file.
 
 	/*
 	 * The codes should be the same as result of Locale#getLangauge() call, which might not match the ISO standard.
@@ -38,7 +39,7 @@ public final class NumberTranscriberFactory {
 	/**
 	 * Mapping language codes to {@link TranscriptionContext}. Implementations should be thread safe.
 	 */
-	private static final Map<String, TranscriptionContext<?>> CONTEXTS = new HashMap<>();
+	private static final Map<String, TranscriptionContext> CONTEXTS = new HashMap<>();
 
 	static {
 		// these should be state-less, thread safe implementations.
@@ -52,6 +53,9 @@ public final class NumberTranscriberFactory {
 		CONTEXTS.put(SIMPLIFIED_CHINESE_CODE, new SimplifiedChineseFinancialNumberTranscriptionContext());
 	}
 
+	/**
+	 * Private constructor. No instances allowed.
+	 */
 	private NumberTranscriberFactory() {
 		// factory class
 	}
@@ -76,19 +80,28 @@ public final class NumberTranscriberFactory {
 		throw new IllegalArgumentException();
 	}
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * Factory method that given a {@link String} that matches a {@link Locale#getLanguage()} previously registered,
+	 * will return a {@link NumberTranscriber} implementation.
+	 * 
+	 * @param key
+	 *            - the {@link String} language code key. Not <code>null</code>.
+	 * @return a {@link NumberTranscriber} instance.
+	 * @throws {@link IllegalArgumentException} when Locale is not supported.
+	 */
 	protected static NumberTranscriber newTranscriber(final String key) {
+
 		switch (key) {
+
 		case ENGLISH_CODE:
 
-			return new EnglishNumberTranscriber(TOKENIZERS.get(key),
-					(TranscriptionContext<EnglishNumberMapping>) CONTEXTS.get(key));
+			return new EnglishNumberTranscriber(TOKENIZERS.get(key), CONTEXTS.get(key));
 
 		case SIMPLIFIED_CHINESE_CODE:
 			// for Simplified Chinese we use the financial numerals
-			return new SimplifiedChineseFinancialNumberTranscriber(TOKENIZERS.get(key),
-					(TranscriptionContext<SimplifiedChineseFinancialNumberMapping>) CONTEXTS.get(key));
+			return new SimplifiedChineseFinancialNumberTranscriber(TOKENIZERS.get(key), CONTEXTS.get(key));
 		}
+
 		throw new IllegalArgumentException();
 	}
 

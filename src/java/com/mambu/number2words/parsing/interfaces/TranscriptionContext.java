@@ -1,13 +1,11 @@
 package com.mambu.number2words.parsing.interfaces;
 
-
 /**
  * Implementations of this interface will provide access to semantic information necessary in the transcription process.
  * 
  * @author aatasiei
- *
  */
-public interface TranscriptionContext<T extends Enum<T> & ValueMapping> {
+public interface TranscriptionContext {
 
 	/**
 	 * Gets the representation of this number as a word.

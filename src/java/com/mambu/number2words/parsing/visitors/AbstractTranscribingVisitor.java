@@ -38,7 +38,7 @@ public abstract class AbstractTranscribingVisitor extends VoidVisitorAdaptor {
 	 *            - {@link StringBuilder} the {@link ValueToken} word representation will be appended.
 	 * 
 	 */
-	protected AbstractTranscribingVisitor(final TranscriptionContext<?> context, final StringBuilder builder,
+	protected AbstractTranscribingVisitor(final TranscriptionContext context, final StringBuilder builder,
 			final String wordSeparator) {
 		super(context);
 

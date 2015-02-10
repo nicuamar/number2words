@@ -12,19 +12,17 @@ import com.mambu.number2words.parsing.interfaces.Visitor;
  * @author aatasiei
  *
  */
-public class EnglishNumberTranscriber extends AbstractNumberTranscriber<EnglishNumberMapping> {
+public class EnglishNumberTranscriber extends AbstractNumberTranscriber {
 
 	/**
-	 * Constructor that is used to initialize this transcriber with a custom tokenizer or context. This might be useful
-	 * in testing.
+	 * Constructor that is used to initialize this transcriber with a tokenizer and context.
 	 * 
 	 * @param tokenizer
 	 *            - tokenizer for English. Not <code>null</code>.
 	 * @param context
 	 *            - evaluation context when transcribing tokens. Not <code>null</code>.
 	 */
-	public EnglishNumberTranscriber(final NumberTokenizer tokenizer,
-			final TranscriptionContext<EnglishNumberMapping> context) {
+	public EnglishNumberTranscriber(final NumberTokenizer tokenizer, final TranscriptionContext context) {
 		super(tokenizer, context);
 	}
 
@@ -32,8 +30,7 @@ public class EnglishNumberTranscriber extends AbstractNumberTranscriber<EnglishN
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected Visitor<Void> getTokenVisitor(final StringBuilder builder,
-			final TranscriptionContext<EnglishNumberMapping> context) {
+	protected Visitor<Void> getTokenVisitor(final StringBuilder builder, final TranscriptionContext context) {
 		return new EnglishTokenVisitor(builder, context);
 	}
 

@@ -1,4 +1,4 @@
-package com.mambu.number2words.internal.english;
+package com.mambu.number2words.internal.english.mapping;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -112,6 +112,14 @@ public enum EnglishNumberMapping implements ValueMapping {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isSubGroupQuantifier() {
+		return mappingType == MappingType.SUBGROUP_QUANTIFIER;
+	}
+
+	/**
 	 * Returns the mapping represented by the specified number.
 	 * 
 	 * @param value
@@ -122,10 +130,5 @@ public enum EnglishNumberMapping implements ValueMapping {
 	 */
 	public static EnglishNumberMapping fromNumber(Long value) {
 		return Objects.requireNonNull(WORD_MAPPING.get(value));
-	}
-
-	@Override
-	public boolean isSubGroupQuantifier() {
-		return mappingType == MappingType.SUBGROUP_QUANTIFIER;
 	}
 }

@@ -7,17 +7,15 @@ import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.Visitor;
 
 /**
- * Number transcriber for the Simplified Chinese language.
+ * Number transcriber for the Simplified Chinese language using Financial numerals.
  * 
  * @author aatasiei
  *
  */
-public class SimplifiedChineseFinancialNumberTranscriber extends
-		AbstractNumberTranscriber<SimplifiedChineseFinancialNumberMapping> {
+public class SimplifiedChineseFinancialNumberTranscriber extends AbstractNumberTranscriber {
 
 	/**
-	 * Constructor that is used to initialize this transcriber with a custom tokenizer or context. This might be useful
-	 * in testing.
+	 * Constructor that is used to initialize this transcriber with a tokenizer and context.
 	 * 
 	 * @param tokenizer
 	 *            - tokenizer for Simplified Chinese. Not <code>null</code>.
@@ -25,7 +23,7 @@ public class SimplifiedChineseFinancialNumberTranscriber extends
 	 *            - evaluation context when transcribing tokens. Not <code>null</code>.
 	 */
 	public SimplifiedChineseFinancialNumberTranscriber(final NumberTokenizer tokenizer,
-			final TranscriptionContext<SimplifiedChineseFinancialNumberMapping> context) {
+			final TranscriptionContext context) {
 		super(tokenizer, context);
 	}
 
@@ -33,8 +31,7 @@ public class SimplifiedChineseFinancialNumberTranscriber extends
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected Visitor<Void> getTokenVisitor(final StringBuilder builder,
-			final TranscriptionContext<SimplifiedChineseFinancialNumberMapping> context) {
+	protected Visitor<Void> getTokenVisitor(final StringBuilder builder, final TranscriptionContext context) {
 		return new SimplifiedChineseTokenVisitor(builder, context);
 	}
 

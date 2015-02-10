@@ -32,7 +32,7 @@ public class SimplifiedChineseTokenVisitor extends AbstractTranscribingVisitor {
 	 *            - the context that holds the number to word mapping information.
 	 * 
 	 */
-	public SimplifiedChineseTokenVisitor(StringBuilder builder, TranscriptionContext<?> context) {
+	public SimplifiedChineseTokenVisitor(StringBuilder builder, TranscriptionContext context) {
 		super(context, builder, WORD_SEPARATOR);
 	}
 

@@ -23,7 +23,7 @@ public abstract class VoidVisitorAdaptor implements Visitor<Void> {
 	/**
 	 * {@link ValueToken} evaluation context for this visitor.
 	 */
-	protected final TranscriptionContext<?> context;
+	protected final TranscriptionContext context;
 
 	/**
 	 * Default constructor
@@ -31,7 +31,7 @@ public abstract class VoidVisitorAdaptor implements Visitor<Void> {
 	 * @param context
 	 *            - context holding the necessary visiting information.
 	 */
-	protected VoidVisitorAdaptor(TranscriptionContext<?> context) {
+	protected VoidVisitorAdaptor(TranscriptionContext context) {
 		this.context = Objects.requireNonNull(context, "Transcription context can not be null.");
 	}
 

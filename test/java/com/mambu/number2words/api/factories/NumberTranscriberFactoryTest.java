@@ -15,25 +15,29 @@ import org.junit.Test;
 public class NumberTranscriberFactoryTest {
 
 	@Test
-	public void giveEnglishFactoryReturnsAnObject() {
+	public void givenEnglishFactoryReturnsAnObject() {
 		assertNotNull("Factory returned null for " + Locale.ENGLISH.getLanguage(),
 				NumberTranscriberFactory.newTranscriber(Locale.ENGLISH));
 	}
 
 	@Test
-	public void giveSimplifiedChineseFactoryReturnsAnObject() {
+	public void givenSimplifiedChineseFactoryReturnsAnObject() {
 		assertNotNull("Factory returned null for " + Locale.SIMPLIFIED_CHINESE.getLanguage(),
 				NumberTranscriberFactory.newTranscriber(Locale.SIMPLIFIED_CHINESE));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void giveInvalidLocaleFactoryThrows() {
+	public void givenInvalidLocaleFactoryThrows() {
 		NumberTranscriberFactory.newTranscriber(Locale.forLanguageTag("ro"));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void giveInvalidLocaleStringFactoryThrows() {
+	public void givenInvalidLocaleStringFactoryThrows() {
 		NumberTranscriberFactory.newTranscriber(Locale.forLanguageTag("ro").getLanguage());
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void givenInvalidStringFactoryThrows() {
+		NumberTranscriberFactory.newTranscriber("test");
+	}
 }

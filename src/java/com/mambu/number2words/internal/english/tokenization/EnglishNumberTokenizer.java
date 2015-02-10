@@ -1,6 +1,7 @@
 package com.mambu.number2words.internal.english.tokenization;
 
-import com.mambu.number2words.internal.english.EnglishNumberMapping;
+import com.mambu.number2words.internal.common.tokenization.AbstractGroupedValuesTokenizer;
+import com.mambu.number2words.internal.english.mapping.EnglishNumberMapping;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
 import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
 
@@ -32,20 +33,37 @@ public class EnglishNumberTokenizer extends AbstractGroupedValuesTokenizer<Engli
 		super(EnglishNumberMapping.class, DECIMAL_POINT_SEPARATOR);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected ValueToken parseSubGroup(long groupValue, long subGroupQuantifier) {
+
 		final long lastDigits = groupValue % subGroupQuantifier;
+
 		final long subGroupMultiplier = groupValue / subGroupQuantifier;
 
 		if (lastDigits == 0) {
-			// 100, 200, 300, etc...
-			return subGroupQuantifier >= 100L ? suffixValue(mappedValue(subGroupMultiplier), subGroupQuantifier)
-					: mappedValue(groupValue);
+			// 10, 20, 30, ... 90, 100, 200, 300, etc...
+			if (subGroupQuantifier >= 100L) {
+				// 100, 200, 300, ...
+				return suffixValue(mappedValue(subGroupMultiplier), subGroupQuantifier);
+			} else {
+				// 10, 20, 30, ...
+				return mappedValue(groupValue);
+			}
+
 		} else {
-			// 101 to 999 excluding 100, 200, 300, etc...
-			return new PrefixedValueToken(parseSubGroup(groupValue - lastDigits, subGroupQuantifier),
-					parseGroupValue(lastDigits));
+
+			// this branch covers:
+			// 1) 21 to 99 excluding 30, 40, ...
+			// 2) 101 to 999 excluding 200, 300, ...
+
+			// 20, 30, ... 90, 100, 200, 300, etc..
+			final ValueToken prefix = parseSubGroup(groupValue - lastDigits, subGroupQuantifier);
+
+			// adding the last digits to the prefix to get the full number
+			return new PrefixedValueToken(prefix, parseGroupValue(lastDigits));
 		}
 	}
-
 }
