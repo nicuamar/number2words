@@ -19,7 +19,7 @@ public interface NumberTranscriber {
 	 *            - BigDecimal instance to transcribe. Not <code>null</code>. Equal or greater than 0.
 	 * @return String containing the transcribed number.
 	 */
-	String toWords(BigDecimal number);
+	String toWords(final BigDecimal number);
 
 	/**
 	 * Appends the number transcribed into words to the StringBuilder instance.
@@ -31,6 +31,6 @@ public interface NumberTranscriber {
 	 * @param number
 	 *            - BigDecimal instance to transcribe. Not <code>null</code>. Equal or greater than 0.
 	 */
-	void appendWords(StringBuilder builder, BigDecimal number);
+	void appendWords(final StringBuilder builder, final BigDecimal number);
 
 }

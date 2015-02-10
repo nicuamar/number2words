@@ -11,7 +11,9 @@ public interface ValueToken {
 
 	/**
 	 * Accepts the current node using the provided visitor.
-	 * 
+	 *
+	 * @param <V>
+	 *            - the return type of the <code>visitor</code>.
 	 * @param visitor
 	 *            - the provided visitor.
 	 * @return value returned by the visitor.

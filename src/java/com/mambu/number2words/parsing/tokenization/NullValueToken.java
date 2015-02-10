@@ -18,6 +18,6 @@ public class NullValueToken implements ValueToken {
 	 */
 	@Override
 	public <V> V accept(Visitor<V> visitor) {
-		return visitor.visit(this);
+		return visitor.visitNullValue(this);
 	}
 }

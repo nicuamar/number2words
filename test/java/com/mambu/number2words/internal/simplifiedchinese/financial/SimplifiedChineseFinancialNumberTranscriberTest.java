@@ -1,4 +1,4 @@
-package com.mambu.number2words.internal.english;
+package com.mambu.number2words.internal.simplifiedchinese.financial;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.mambu.number2words.api.NumberTranscriber;
 import com.mambu.number2words.internal.common.FileValuesTestHelper;
-import com.mambu.number2words.internal.english.tokenization.EnglishNumberTokenizer;
+import com.mambu.number2words.internal.simplifiedchinese.financial.tokenization.SimplifiedChineseFinancialNumberTokenizer;
 
 /**
  * Tests for the English number transcription.
@@ -22,10 +22,10 @@ import com.mambu.number2words.internal.english.tokenization.EnglishNumberTokeniz
  * @author aatasiei
  *
  */
-public class EnglishNumberTranscriberTest {
+public class SimplifiedChineseFinancialNumberTranscriberTest {
 
-	private NumberTranscriber transcriber = new EnglishNumberTranscriber(new EnglishNumberTokenizer(),
-			new EnglishNumberTranscriptionContext());
+	private NumberTranscriber transcriber = new SimplifiedChineseFinancialNumberTranscriber(
+			new SimplifiedChineseFinancialNumberTokenizer(), new SimplifiedChineseFinancialNumberTranscriptionContext());
 	private DecimalFormat decimalFormat;
 
 	@Before
@@ -46,14 +46,8 @@ public class EnglishNumberTranscriberTest {
 	}
 
 	@Test
-	public void testZero() {
-		assertEquals("zero", transcriber.toWords(BigDecimal.ZERO));
-	}
-
-	@Test
 	public void testTens() {
-		String[] expected = new String[] { "zero", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy",
-				"eighty", "ninety" };
+		String[] expected = new String[] { "零", "拾", "贰拾", "叁拾", "肆拾", "伍拾", "陆拾", "柒拾", "捌拾", "玖拾" };
 
 		for (int i = 0; i < expected.length; ++i) {
 			assertEquals(expected[i], transcriber.toWords(BigDecimal.TEN.multiply(new BigDecimal(i))));
@@ -62,8 +56,7 @@ public class EnglishNumberTranscriberTest {
 
 	@Test
 	public void testTenToTwenty() {
-		String[] expected = new String[] { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
-				"seventeen", "eighteen", "nineteen" };
+		String[] expected = new String[] { "拾", "拾壹", "拾贰", "拾叁", "拾肆", "拾伍", "拾陆", "拾柒", "拾捌", "拾玖" };
 
 		for (int i = 0; i < expected.length; ++i) {
 			assertEquals(expected[i], transcriber.toWords(BigDecimal.TEN.add(new BigDecimal(i))));
@@ -73,9 +66,8 @@ public class EnglishNumberTranscriberTest {
 	@Test
 	public void testPowersOfTen() {
 
-		String[] expected = new String[] { "one", "ten", "one hundred", "one thousand", "ten thousand",
-				"one hundred thousand", "one million", "ten million", "one hundred million", "one billion",
-				"ten billion", "one hundred billion" };
+		String[] expected = new String[] { "壹", "拾", "壹佰", "壹仟", "壹萬", "拾萬", "壹佰萬", "壹仟萬", "壹億", "拾億", "壹佰億", "壹仟億",
+				"壹兆" };
 
 		for (int i = 0; i < expected.length; ++i) {
 			assertEquals(expected[i], transcriber.toWords(BigDecimal.TEN.pow(i)));
@@ -85,6 +77,7 @@ public class EnglishNumberTranscriberTest {
 	@Test
 	public void testValuesFromFile() throws FileNotFoundException, IOException, ParseException {
 
-		FileValuesTestHelper.readAndVerifyFile(transcriber, decimalFormat, "/english_numbers_test.txt");
+		FileValuesTestHelper.readAndVerifyFile(transcriber, decimalFormat,
+				"/simplified_chinese_financial_numbers_test.txt");
 	}
 }

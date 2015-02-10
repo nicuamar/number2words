@@ -16,7 +16,7 @@ public class DecimalValueToken extends AbstractPairToken {
 	/**
 	 * Separator string that should represent a decimal separator.
 	 */
-	// TODO: (aatasiei) if String literals appear in other tokens, a LiteralToken might be required.
+	// FUTURE: (aatasiei) if String literals appear in other tokens, a LiteralToken might be required.
 	private String separator;
 
 	/**

@@ -4,7 +4,6 @@ package com.mambu.number2words.parsing.interfaces;
  * Implementations of this interface will provide access to semantic information necessary in the transcription process.
  * 
  * @author aatasiei
- *
  */
 public interface TranscriptionContext {
 

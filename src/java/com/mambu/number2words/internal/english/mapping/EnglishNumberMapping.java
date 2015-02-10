@@ -1,4 +1,4 @@
-package com.mambu.number2words.internal.english;
+package com.mambu.number2words.internal.english.mapping;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,26 +12,29 @@ import com.mambu.number2words.parsing.interfaces.ValueMapping;
  * @author aatasiei
  *
  */
-enum EnglishNumberMapping implements ValueMapping {
+public enum EnglishNumberMapping implements ValueMapping {
 
 	ZERO(0, "zero"), ONE(1, "one"), TWO(2, "two"), THREE(3, "three"), FOUR(4, "four"), FIVE(5, "five"), SIX(6, "six"), SEVEN(
 			7, "seven"), EIGHT(8, "eight"), NINE(9, "nine"),
 
-	TEN(10, "ten"), ELEVEN(11, "eleven"), TWELVE(12, "twelve"), THIRTEEN(13, "thirteen"), FOURTEEN(14, "fourteen"), FIFTEEN(
+	TEN(10, "ten", MappingType.SUBGROUP_QUANTIFIER),
+
+	ELEVEN(11, "eleven"), TWELVE(12, "twelve"), THIRTEEN(13, "thirteen"), FOURTEEN(14, "fourteen"), FIFTEEN(
 			15, "fifteen"), SIXTEEN(16, "sixteen"), SEVENTEEN(17, "seventeen"), EIGHTEEN(18, "eighteen"), NINETEEN(19,
 			"nineteen"),
 
 	TWENTY(20, "twenty"), THIRTY(30, "thirty"), FOURTY(40, "forty"), FIFTY(50, "fifty"), SIXTY(60, "sixty"), SEVENTY(
 			70, "seventy"), EIGHTY(80, "eighty"), NINETY(90, "ninety"),
 
-	// TODO: (aatasiei) decide on whether subgroups are needed to accommodate 'hundred'
-	HUNDRED(100, "hundred"),
+	HUNDRED(100, "hundred", MappingType.SUBGROUP_QUANTIFIER),
 
-	THOUSAND(1_000, "thousand", true),
+	THOUSAND(1_000, "thousand", MappingType.GROUP_QUANTIFIER),
 
-	MILLION(1_000_000, "million", true),
+	MILLION(1_000_000, "million", MappingType.GROUP_QUANTIFIER),
 
-	BILLION(1_000_000_000, "billion", true);
+	BILLION(1_000_000_000, "billion", MappingType.GROUP_QUANTIFIER),
+
+	TRILLION(1_000_000_000_000L, "trillion", MappingType.GROUP_QUANTIFIER);
 
 	/**
 	 * Holds the direct mappings from value to enum instance.
@@ -54,9 +57,9 @@ enum EnglishNumberMapping implements ValueMapping {
 	 */
 	private String word;
 	/**
-	 * True, if the instance represents a group. For example: "thounsand", "million", etc...
+	 * True, if the instance represents a group. For example: "thousand", "million", etc...
 	 */
-	private boolean quantifier;
+	private MappingType mappingType;
 
 	/**
 	 * Constructor for value mappings (non quantifiers).
@@ -67,7 +70,7 @@ enum EnglishNumberMapping implements ValueMapping {
 	 *            - the String representation.
 	 */
 	EnglishNumberMapping(long value, String word) {
-		this(value, word, false);
+		this(value, word, MappingType.SIMPLE);
 	}
 
 	/**
@@ -80,10 +83,10 @@ enum EnglishNumberMapping implements ValueMapping {
 	 * @param isQuantifier
 	 *            - true, if the value is a quantifier
 	 */
-	EnglishNumberMapping(long value, String word, boolean isQuantifier) {
+	EnglishNumberMapping(long value, String word, MappingType mappingType) {
 		this.value = value;
 		this.word = word;
-		this.quantifier = isQuantifier;
+		this.mappingType = mappingType;
 	}
 
 	/**
@@ -106,8 +109,16 @@ enum EnglishNumberMapping implements ValueMapping {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean isQuantifier() {
-		return quantifier;
+	public boolean isGroupQuantifier() {
+		return mappingType == MappingType.GROUP_QUANTIFIER;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isSubGroupQuantifier() {
+		return mappingType == MappingType.SUBGROUP_QUANTIFIER;
 	}
 
 	/**

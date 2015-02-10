@@ -1,5 +1,6 @@
 package com.mambu.number2words.internal.english;
 
+import com.mambu.number2words.internal.english.mapping.EnglishNumberMapping;
 import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 
 /**
@@ -11,7 +12,7 @@ import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
  * @author aatasiei
  *
  */
-class EnglishNumberTranscriptionContext implements TranscriptionContext {
+public class EnglishNumberTranscriptionContext implements TranscriptionContext {
 
 	/**
 	 * {@inheritDoc}
