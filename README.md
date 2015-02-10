@@ -20,4 +20,4 @@ transcriber.toWords(new BigDecimal("1234.12")); // returns "one thousand two hun
 | Locale              | Language           | Notes                                               |
 |---------------------|:------------------:|----------------------------------------------------:|
 |Locale.ENGLISH       | English            | Small scale. Values over 1 trillion overflow .      |
-|Locale.SIMPLE_CHINESE| Simplified Chinese | Uses financial numerals. Values over 10^12 overflow.|
+|Locale.SIMPLIFIED_CHINESE| Simplified Chinese | Uses **financial numerals**. Values over 10^12 overflow.|
