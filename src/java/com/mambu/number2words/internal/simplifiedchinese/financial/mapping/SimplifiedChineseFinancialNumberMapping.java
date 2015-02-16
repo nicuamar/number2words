@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import com.mambu.number2words.internal.common.mapping.SimpleWordValue;
 import com.mambu.number2words.parsing.interfaces.ValueMapping;
+import com.mambu.number2words.parsing.interfaces.WordValue;
 
 /**
  * Listing of all (up to 10<sup>12</sup>) the Simplified Chinese financial numbers that can be mapped to a word.
@@ -48,7 +50,7 @@ public enum SimplifiedChineseFinancialNumberMapping implements ValueMapping {
 	/**
 	 * String to be used when transcribing the value.
 	 */
-	private String word;
+	private WordValue word;
 	/**
 	 * True, if the instance represents a group. For example: "萬" (10,000), "億" (100,000,000), etc...
 	 * <p>
@@ -80,7 +82,7 @@ public enum SimplifiedChineseFinancialNumberMapping implements ValueMapping {
 	 */
 	SimplifiedChineseFinancialNumberMapping(long value, String word, MappingType mappingType) {
 		this.value = value;
-		this.word = word;
+		this.word = SimpleWordValue.wordOf(word);
 		this.mappingType = mappingType;
 	}
 
@@ -88,7 +90,7 @@ public enum SimplifiedChineseFinancialNumberMapping implements ValueMapping {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getWord() {
+	public WordValue getWordValue() {
 		return word;
 	}
 

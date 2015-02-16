@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.mambu.number2words.parsing.interfaces.ValueMapping;
+import com.mambu.number2words.parsing.interfaces.WordValue;
 
 /**
  * Tests for {@link QuantifyingMappingsHelper}.
@@ -39,7 +40,7 @@ public class QuantifyingMappingsHelperTest {
 		}
 
 		@Override
-		public String getWord() {
+		public WordValue getWordValue() {
 			// not necessary for the tests
 			return null;
 		}
@@ -73,7 +74,7 @@ public class QuantifyingMappingsHelperTest {
 		}
 
 		@Override
-		public String getWord() {
+		public WordValue getWordValue() {
 			// not necessary for the tests
 			return null;
 		}
@@ -109,7 +110,7 @@ public class QuantifyingMappingsHelperTest {
 		}
 
 		@Override
-		public String getWord() {
+		public WordValue getWordValue() {
 			// not necessary for the tests
 			return null;
 		}

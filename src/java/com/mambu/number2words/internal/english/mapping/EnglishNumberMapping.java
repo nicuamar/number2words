@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import com.mambu.number2words.internal.common.mapping.SimpleWordValue;
 import com.mambu.number2words.parsing.interfaces.ValueMapping;
+import com.mambu.number2words.parsing.interfaces.WordValue;
 
 /**
  * Listing of all the English numbers that can be mapped to a word.
@@ -55,7 +57,7 @@ public enum EnglishNumberMapping implements ValueMapping {
 	/**
 	 * String to be used when transcribing the value.
 	 */
-	private String word;
+	private WordValue word;
 	/**
 	 * True, if the instance represents a group. For example: "thousand", "million", etc...
 	 */
@@ -85,7 +87,7 @@ public enum EnglishNumberMapping implements ValueMapping {
 	 */
 	EnglishNumberMapping(long value, String word, MappingType mappingType) {
 		this.value = value;
-		this.word = word;
+		this.word = SimpleWordValue.wordOf(word);
 		this.mappingType = mappingType;
 	}
 
@@ -93,7 +95,7 @@ public enum EnglishNumberMapping implements ValueMapping {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getWord() {
+	public WordValue getWordValue() {
 		return word;
 	}
 

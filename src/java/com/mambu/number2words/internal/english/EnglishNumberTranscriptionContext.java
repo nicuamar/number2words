@@ -19,7 +19,7 @@ public class EnglishNumberTranscriptionContext implements TranscriptionContext {
 	 */
 	@Override
 	public String asWord(Long value) {
-		return EnglishNumberMapping.fromNumber(value).getWord();
+		return EnglishNumberMapping.fromNumber(value).getWordValue().getWord();
 	}
 
 }

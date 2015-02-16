@@ -54,7 +54,7 @@ public interface ValueMapping {
 	 * 
 	 * @return String instance. Not null.
 	 */
-	String getWord();
+	WordValue getWordValue();
 
 	/**
 	 * Gets the number associate with this mapping.

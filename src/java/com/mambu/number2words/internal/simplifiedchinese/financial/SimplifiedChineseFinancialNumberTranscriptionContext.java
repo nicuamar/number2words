@@ -19,7 +19,7 @@ public class SimplifiedChineseFinancialNumberTranscriptionContext implements Tra
 	 */
 	@Override
 	public String asWord(Long value) {
-		return SimplifiedChineseFinancialNumberMapping.fromNumber(value).getWord();
+		return SimplifiedChineseFinancialNumberMapping.fromNumber(value).getWordValue().getWord();
 	}
 
 }
