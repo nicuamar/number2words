@@ -7,6 +7,7 @@ import com.mambu.number2words.parsing.interfaces.ValueToken;
 import com.mambu.number2words.parsing.interfaces.Visitor;
 import com.mambu.number2words.parsing.tokenization.DecimalValueToken;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
+import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
 import com.mambu.number2words.parsing.tokenization.NullValueToken;
 import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
@@ -98,4 +99,12 @@ public abstract class VoidVisitorAdaptor implements Visitor<Void> {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Void visitLiteral(LiteralValueToken literalValueToken) {
+		// default, do nothing
+		return null;
+	}
 }

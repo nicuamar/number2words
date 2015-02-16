@@ -6,6 +6,7 @@ import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
 import com.mambu.number2words.parsing.tokenization.DecimalValueToken;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
+import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
 import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
 import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
@@ -153,6 +154,14 @@ public abstract class AbstractTranscribingVisitor extends VoidVisitorAdaptor {
 		builder.append(wordSeparator).append(token.getDecimalSeparator()).append(wordSeparator);
 		// write the fractional part
 		token.getFractionalPart().accept(this);
+
+		return null;
+	}
+
+	@Override
+	public Void visitLiteral(LiteralValueToken literalValueToken) {
+
+		builder.append(literalValueToken.getValue());
 
 		return null;
 	}

@@ -11,6 +11,7 @@ import com.mambu.number2words.parsing.interfaces.Visitor;
  * @author aatasiei
  *
  */
+@Deprecated
 public class DecimalValueToken extends AbstractPairToken {
 
 	/**
