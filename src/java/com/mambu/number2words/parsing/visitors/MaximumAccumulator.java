@@ -1,6 +1,7 @@
 package com.mambu.number2words.parsing.visitors;
 
 import com.mambu.number2words.parsing.interfaces.ValueToken;
+import com.mambu.number2words.parsing.interfaces.Visitor;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
 import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
@@ -14,7 +15,7 @@ import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
  * @author aatasiei
  *
  */
-public class MaximumAccumulator extends VisitorAdaptor<Long> {
+public class MaximumAccumulator implements Visitor<Long> {
 
 	/**
 	 * Default constructor

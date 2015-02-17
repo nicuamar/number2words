@@ -4,11 +4,13 @@ import java.util.Objects;
 
 import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
+import com.mambu.number2words.parsing.interfaces.Visitor;
 import com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber;
 import com.mambu.number2words.parsing.interfaces.WordValue.WordForm;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
 import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
+import com.mambu.number2words.parsing.tokenization.NullValueToken;
 import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
 import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
 
@@ -18,7 +20,7 @@ import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
  * @author aatasiei
  *
  */
-public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
+public abstract class AbstractTranscribingVisitor implements Visitor<Void> {
 
 	/**
 	 * String builder to which the {@link ValueToken} word representation will be appended.
@@ -157,6 +159,15 @@ public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
 
 		builder.append(literalValueToken.getValue());
 
+		return null;
+	}
+
+	/**
+	 * Visits {@link NullValueToken} tokens. This will append nothing to the builder.
+	 */
+	@Override
+	public Void visitNullValue(final NullValueToken token) {
+		// do nothing
 		return null;
 	}
 }
