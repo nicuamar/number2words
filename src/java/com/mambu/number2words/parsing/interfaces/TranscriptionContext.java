@@ -1,6 +1,6 @@
 package com.mambu.number2words.parsing.interfaces;
 
-import com.mambu.number2words.parsing.interfaces.WordValue.Form;
+import com.mambu.number2words.parsing.interfaces.WordValue.WordForm;
 import com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber;
 
 /**
@@ -19,6 +19,6 @@ public interface TranscriptionContext {
 	 * @param number
 	 * @return a {@link String} instance. Never <code>null</code>.
 	 */
-	String asWord(Long value, GrammaticalNumber number, Form form);
+	String asWord(Long value, GrammaticalNumber number, WordForm form);
 
 }

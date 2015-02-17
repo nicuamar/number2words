@@ -17,28 +17,28 @@ public class SimpleWordValue implements WordValue {
 	public static class MappingWordData {
 
 		private final Set<GrammaticalNumber> numbers;
-		private final Set<Form> forms;
+		private final Set<WordForm> forms;
 		private final String value;
 
-		private MappingWordData(final Set<GrammaticalNumber> numbers, final Set<Form> forms, final String value) {
+		private MappingWordData(final Set<GrammaticalNumber> numbers, final Set<WordForm> forms, final String value) {
 			this.numbers = numbers;
 			this.forms = forms;
 			this.value = value;
 		}
 
-		MappingWordData(final GrammaticalNumber number, final Form form, final String value) {
+		MappingWordData(final GrammaticalNumber number, final WordForm form, final String value) {
 			this(EnumSet.of(number), EnumSet.of(form), value);
 		}
 
 		MappingWordData(final GrammaticalNumber number, final String value) {
-			this(EnumSet.of(number), EnumSet.allOf(Form.class), value);
+			this(EnumSet.of(number), EnumSet.allOf(WordForm.class), value);
 		}
 
-		MappingWordData(final Form form, final String value) {
+		MappingWordData(final WordForm form, final String value) {
 			this(EnumSet.allOf(GrammaticalNumber.class), EnumSet.of(form), value);
 		}
 
-		public static MappingWordData map(final GrammaticalNumber number, final Form form, final String value) {
+		public static MappingWordData map(final GrammaticalNumber number, final WordForm form, final String value) {
 			return new MappingWordData(number, form, value);
 		}
 
@@ -46,16 +46,16 @@ public class SimpleWordValue implements WordValue {
 			return new MappingWordData(number, value);
 		}
 
-		public static MappingWordData map(final Form form, final String value) {
+		public static MappingWordData map(final WordForm form, final String value) {
 			return new MappingWordData(form, value);
 		}
 	}
 
-	private final Map<GrammaticalNumber, Map<Form, String>> values;
+	private final Map<GrammaticalNumber, Map<WordForm, String>> values;
 
 	// single value
 	SimpleWordValue(final String value) {
-		values = fillEnumMap(GrammaticalNumber.class, fillEnumMap(Form.class, Objects.requireNonNull(value)));
+		values = fillEnumMap(GrammaticalNumber.class, fillEnumMap(WordForm.class, Objects.requireNonNull(value)));
 	}
 
 	SimpleWordValue(final MappingWordData... wordData) {
@@ -70,9 +70,9 @@ public class SimpleWordValue implements WordValue {
 
 			for (final GrammaticalNumber number : data.numbers) {
 
-				final Map<Form, String> map = getOrNew(number);
+				final Map<WordForm, String> map = getOrNew(number);
 
-				for (final Form form : data.forms) {
+				for (final WordForm form : data.forms) {
 					map.put(form, data.value);
 				}
 			}
@@ -87,11 +87,11 @@ public class SimpleWordValue implements WordValue {
 		return new SimpleWordValue(wordData);
 	}
 
-	private Map<Form, String> getOrNew(final GrammaticalNumber number) {
+	private Map<WordForm, String> getOrNew(final GrammaticalNumber number) {
 
 		if (!values.containsKey(number)) {
 
-			final EnumMap<Form, String> formToValue = new EnumMap<>(Form.class);
+			final EnumMap<WordForm, String> formToValue = new EnumMap<>(WordForm.class);
 			values.put(number, formToValue);
 		}
 
@@ -109,19 +109,9 @@ public class SimpleWordValue implements WordValue {
 		return mapValues;
 	}
 
-	public String getWord(final GrammaticalNumber number, final Form form) {
+	@Override
+	public String getWord(final GrammaticalNumber number, final WordForm form) {
 		return values.get(number).get(form);
 	}
 
-	public String getWord(final GrammaticalNumber number) {
-		return values.get(number).get(Form.DEFAULT);
-	}
-
-	public String getWord(final Form form) {
-		return values.get(GrammaticalNumber.SINGULAR).get(form);
-	}
-
-	public String getWord() {
-		return values.get(GrammaticalNumber.SINGULAR).get(Form.DEFAULT);
-	}
 }

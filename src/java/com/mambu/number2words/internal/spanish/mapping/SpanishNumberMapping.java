@@ -2,8 +2,8 @@ package com.mambu.number2words.internal.spanish.mapping;
 
 import static com.mambu.number2words.internal.common.mapping.SimpleWordValue.wordOf;
 import static com.mambu.number2words.internal.common.mapping.SimpleWordValue.MappingWordData.map;
-import static com.mambu.number2words.parsing.interfaces.WordValue.Form.DEFAULT;
-import static com.mambu.number2words.parsing.interfaces.WordValue.Form.SHORTENED;
+import static com.mambu.number2words.parsing.interfaces.WordValue.WordForm.DEFAULT;
+import static com.mambu.number2words.parsing.interfaces.WordValue.WordForm.SHORTENED;
 import static com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber.PLURAL;
 import static com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber.SINGULAR;
 

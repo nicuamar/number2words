@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
-import com.mambu.number2words.parsing.interfaces.WordValue.Form;
+import com.mambu.number2words.parsing.interfaces.WordValue.WordForm;
 import com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
 import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
@@ -92,7 +92,7 @@ public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
 	public Void visitMappedValue(MappedValueToken token) {
 
 		// mapped value tokens should be represented by a single string
-		final String word = context.asWord(token.getMappedValue(), GrammaticalNumber.SINGULAR, Form.DEFAULT);
+		final String word = context.asWord(token.getMappedValue(), GrammaticalNumber.SINGULAR, WordForm.DEFAULT);
 
 		builder.append(word);
 

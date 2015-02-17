@@ -2,7 +2,7 @@ package com.mambu.number2words.internal.english;
 
 import com.mambu.number2words.internal.english.mapping.EnglishNumberMapping;
 import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
-import com.mambu.number2words.parsing.interfaces.WordValue.Form;
+import com.mambu.number2words.parsing.interfaces.WordValue.WordForm;
 import com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber;
 
 /**
@@ -20,7 +20,7 @@ public class EnglishNumberTranscriptionContext implements TranscriptionContext {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String asWord(Long value, GrammaticalNumber number, Form form) {
+	public String asWord(Long value, GrammaticalNumber number, WordForm form) {
 		return EnglishNumberMapping.fromNumber(value).getWordValue().getWord(number, form);
 	}
 

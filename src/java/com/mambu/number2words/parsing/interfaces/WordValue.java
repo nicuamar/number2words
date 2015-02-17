@@ -7,14 +7,22 @@ public interface WordValue {
 
 		public static final GrammaticalNumber getOrDefault(GrammaticalNumber number) {
 			return number != null ? number : GrammaticalNumber.SINGULAR;
+		}
+
+		public boolean isPlural() {
+			return this == PLURAL;
 		};
 	}
 
-	public enum Form {
+	public enum WordForm {
 		SHORTENED, DEFAULT;
 
-		public static final Form getOrDefault(Form form) {
-			return form != null ? form : Form.DEFAULT;
+		public static final WordForm getOrDefault(WordForm form) {
+			return form != null ? form : WordForm.DEFAULT;
+		}
+
+		public boolean isShortened() {
+			return this == SHORTENED;
 		};
 	}
 
@@ -23,9 +31,5 @@ public interface WordValue {
 	 * 
 	 * @return String instance. Not null.
 	 */
-	String getWord();
-
-	String getWord(final GrammaticalNumber number, final Form form);
-	String getWord(final GrammaticalNumber number);
-	String getWord(final Form form);
+	String getWord(final GrammaticalNumber number, final WordForm form);
 }
