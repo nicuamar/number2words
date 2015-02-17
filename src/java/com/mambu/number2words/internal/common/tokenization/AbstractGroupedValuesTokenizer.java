@@ -281,6 +281,18 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 	 */
 	private List<ValueToken> tokenizeNonZeroValue(final BigInteger number) {
 
+		final List<ValueToken> groups = parseLargeValue(number);
+
+		// the group tokens were added in reverse order:
+		// {UNIT, THOUSAND, MILLION, BILLION}, but should be {BILLION, MILLION, THOUSAND, UNIT}
+		if (groups.size() > 1) {
+			Collections.reverse(groups);
+		}
+
+		return groups;
+	}
+
+	protected List<ValueToken> parseLargeValue(final BigInteger number) {
 		final List<ValueToken> groups = new ArrayList<ValueToken>();
 
 		BigInteger toTokenize = number;
@@ -288,12 +300,12 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 		int currentGroup = 0; // group index
 		long currentGroupQuantifier = 1; // group quantifier {1, 1_000, 1_000_000, etc...}
 
-		BigInteger groupingDivisor = getGroupingDivisor(currentGroup);
-		long longGroupDivisor = groupingDivisor.longValue();
+		BigInteger localGroupingDivisor = getGroupingDivisor(currentGroup);
+		long longGroupDivisor = localGroupingDivisor.longValue();
 
 		while (!toTokenize.equals(BigInteger.ZERO)) {
 
-			if (currentGroup == getMaximumGroupIndex() && toTokenize.compareTo(groupingDivisor) >= 0) {
+			if (currentGroup == getMaximumGroupIndex() && toTokenize.compareTo(localGroupingDivisor) >= 0) {
 				// the number overflows over 999,999,999,999
 				// re-tokenize the overflow
 				addOverflowingNumberTokens(groups, toTokenize);
@@ -304,28 +316,25 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 
 				// values[0] -> next number to tokenize
 				// values[1] -> the current group value (3 digits maximum)
-				BigInteger[] values = toTokenize.divideAndRemainder(groupingDivisor);
+				BigInteger[] values = toTokenize.divideAndRemainder(localGroupingDivisor);
 
 				toTokenize = values[0];
 				BigInteger groupValue = values[1];
 
-				groups.add(parseGroup(groupValue.longValue(), currentGroupQuantifier));
+				if (groupValue.compareTo(groupingDivisor) >= 0) {
+					groups.add(suffixValue(tokenize(groupValue), longGroupDivisor));
+				} else {
+					groups.add(parseGroup(groupValue.longValue(), currentGroupQuantifier));
+				}
 
 				++currentGroup;
 				currentGroupQuantifier *= longGroupDivisor;
 
 				// update the divisor
-				groupingDivisor = getGroupingDivisor(currentGroup);
-				longGroupDivisor = groupingDivisor.longValue();
+				localGroupingDivisor = getGroupingDivisor(currentGroup);
+				longGroupDivisor = localGroupingDivisor.longValue();
 			}
 		}
-
-		// the group tokens were added in reverse order:
-		// {UNIT, THOUSAND, MILLION, BILLION}, but should be {BILLION, MILLION, THOUSAND, UNIT}
-		if (groups.size() > 1) {
-			Collections.reverse(groups);
-		}
-
 		return groups;
 	}
 

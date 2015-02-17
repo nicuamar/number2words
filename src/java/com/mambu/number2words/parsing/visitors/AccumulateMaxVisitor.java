@@ -1,15 +1,12 @@
 package com.mambu.number2words.parsing.visitors;
 
-import java.util.Objects;
-
 import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
-import com.mambu.number2words.parsing.interfaces.WordValue.Form;
-import com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber;
 import com.mambu.number2words.parsing.tokenization.DecimalValueToken;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
 import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
+import com.mambu.number2words.parsing.tokenization.NullValueToken;
 import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
 import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
 
@@ -19,17 +16,7 @@ import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
  * @author aatasiei
  *
  */
-public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
-
-	/**
-	 * String builder to which the {@link ValueToken} word representation will be appended.
-	 */
-	protected final StringBuilder builder;
-
-	/**
-	 * String separator to be appended between words.
-	 */
-	protected final String wordSeparator;
+public class AccumulateMaxVisitor extends VisitorAdaptor<Long> {
 
 	/**
 	 * Default constructor
@@ -41,14 +28,8 @@ public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
 	 *            - {@link StringBuilder} the {@link ValueToken} word representation will be appended.
 	 * 
 	 */
-	protected AbstractTranscribingVisitor(final TranscriptionContext context, final StringBuilder builder,
-			final String wordSeparator) {
+	public AccumulateMaxVisitor(final TranscriptionContext context) {
 		super(context);
-
-		this.builder = Objects.requireNonNull(builder, "Builder can not be null");
-
-		this.wordSeparator = Objects.requireNonNull(wordSeparator,
-				"Word separator can not be null (can be set to empty)");
 	}
 
 	/**
@@ -59,27 +40,22 @@ public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
 	 * Example: 10100: "ten thousand", "one hundred".
 	 */
 	@Override
-	public Void visitGroupList(GroupListToken token) {
+	public Long visitGroupList(GroupListToken token) {
+
+		Long maxValue = 0L;
 
 		// for all tokens in the list
 		for (ValueToken gr : token.getList()) {
-			int oldLength = builder.length();
 
 			// accept the visitor
-			gr.accept(this);
+			final Long value = gr.accept(this);
 
-			// if the builder was modified, append a separator
-			if (oldLength != builder.length()) {
-				builder.append(wordSeparator);
+			if (value > maxValue) {
+				maxValue = value;
 			}
 		}
 
-		if (builder.length() > 0 && wordSeparator.length() > 0) {
-			// remove last separator
-			builder.setLength(builder.length() - wordSeparator.length());
-		}
-
-		return null;
+		return maxValue;
 	}
 
 	/**
@@ -90,14 +66,10 @@ public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
 	 * Example: all values 0-20, then 30, 40, 50, etc...
 	 */
 	@Override
-	public Void visitMappedValue(MappedValueToken token) {
+	public Long visitMappedValue(MappedValueToken token) {
 
 		// mapped value tokens should be represented by a single string
-		final String word = context.asWord(token.getMappedValue(), GrammaticalNumber.SINGULAR, Form.DEFAULT);
-
-		builder.append(word);
-
-		return null;
+		return token.getMappedValue();
 	}
 
 	/**
@@ -108,16 +80,14 @@ public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
 	 * Example: 22: "twenty" "two".
 	 */
 	@Override
-	public Void visitPrefixedValue(PrefixedValueToken token) {
+	public Long visitPrefixedValue(PrefixedValueToken token) {
 
-		// write prefix
-		token.getPrefixToken().accept(this);
-		// write separator
-		builder.append(wordSeparator);
-		// write value
-		token.getValueToken().accept(this);
+		// prefix
+		Long prefixValue = token.getPrefixToken().accept(this);
+		// value
+		Long value = token.getValueToken().accept(this);
 
-		return null;
+		return Math.max(prefixValue, value);
 	}
 
 	/**
@@ -128,16 +98,14 @@ public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
 	 * Example: 100: "one" "hundred".
 	 */
 	@Override
-	public Void visitSuffixedValue(SuffixedValueToken token) {
+	public Long visitSuffixedValue(SuffixedValueToken token) {
 
-		// write value
-		token.getValueToken().accept(this);
-		// write separator
-		builder.append(wordSeparator);
-		// write suffix
-		token.getSuffixToken().accept(this);
+		// value
+		Long value = token.getValueToken().accept(this);
+		// suffix
+		Long suffixValue = token.getSuffixToken().accept(this);
 
-		return null;
+		return Math.max(value, suffixValue);
 	}
 
 	/**
@@ -149,23 +117,18 @@ public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
 	 * Example: 100.12: "one hundred" "and" "twelve"
 	 */
 	@Override
-	public Void visitDecimalValue(DecimalValueToken token) {
+	public Long visitDecimalValue(DecimalValueToken token) {
 
-		// write the integer part
-		token.getIntegerPart().accept(this);
-		// write the decimal separator
-		builder.append(wordSeparator).append(token.getDecimalSeparator()).append(wordSeparator);
-		// write the fractional part
-		token.getFractionalPart().accept(this);
-
-		return null;
+		throw new IllegalStateException();
 	}
 
 	@Override
-	public Void visitLiteral(LiteralValueToken literalValueToken) {
+	public Long visitLiteral(LiteralValueToken token) {
+		return 0L;
+	}
 
-		builder.append(literalValueToken.getValue());
-
-		return null;
+	@Override
+	public Long visitNullValue(NullValueToken token) {
+		return 0L;
 	}
 }

@@ -19,7 +19,7 @@ import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
  * @author aatasiei
  *
  */
-public abstract class VoidVisitorAdaptor implements Visitor<Void> {
+public abstract class VisitorAdaptor<T> implements Visitor<T> {
 
 	/**
 	 * {@link ValueToken} evaluation context for this visitor.
@@ -32,7 +32,7 @@ public abstract class VoidVisitorAdaptor implements Visitor<Void> {
 	 * @param context
 	 *            - context holding the necessary visiting information.
 	 */
-	protected VoidVisitorAdaptor(TranscriptionContext context) {
+	protected VisitorAdaptor(TranscriptionContext context) {
 		this.context = Objects.requireNonNull(context, "Transcription context can not be null.");
 	}
 
@@ -40,8 +40,8 @@ public abstract class VoidVisitorAdaptor implements Visitor<Void> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Void visit(ValueToken token) {
-		// default, do nothing
+	public T visitNullValue(NullValueToken token) {
+		// default: accept all
 		return null;
 	}
 
@@ -49,8 +49,8 @@ public abstract class VoidVisitorAdaptor implements Visitor<Void> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Void visitNullValue(NullValueToken token) {
-		// default, do nothing
+	public T visitGroupList(GroupListToken token) {
+		// default: accept all
 		return null;
 	}
 
@@ -58,8 +58,8 @@ public abstract class VoidVisitorAdaptor implements Visitor<Void> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Void visitGroupList(GroupListToken token) {
-		// default, do nothing
+	public T visitMappedValue(MappedValueToken token) {
+		// default: accept all
 		return null;
 	}
 
@@ -67,8 +67,8 @@ public abstract class VoidVisitorAdaptor implements Visitor<Void> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Void visitMappedValue(MappedValueToken token) {
-		// default, do nothing
+	public T visitPrefixedValue(PrefixedValueToken token) {
+		// default: accept all
 		return null;
 	}
 
@@ -76,8 +76,8 @@ public abstract class VoidVisitorAdaptor implements Visitor<Void> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Void visitPrefixedValue(PrefixedValueToken token) {
-		// default, do nothing
+	public T visitSuffixedValue(SuffixedValueToken token) {
+		// default: accept all
 		return null;
 	}
 
@@ -85,8 +85,8 @@ public abstract class VoidVisitorAdaptor implements Visitor<Void> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Void visitSuffixedValue(SuffixedValueToken token) {
-		// default, do nothing
+	public T visitDecimalValue(DecimalValueToken token) {
+		// default: accept all
 		return null;
 	}
 
@@ -94,17 +94,8 @@ public abstract class VoidVisitorAdaptor implements Visitor<Void> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Void visitDecimalValue(DecimalValueToken token) {
-		// default, do nothing
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Void visitLiteral(LiteralValueToken literalValueToken) {
-		// default, do nothing
+	public T visitLiteral(LiteralValueToken token) {
+		// default: accept all
 		return null;
 	}
 }

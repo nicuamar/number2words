@@ -35,4 +35,9 @@ public class LiteralValueToken implements ValueToken {
 	public String getValue() {
 		return value;
 	}
+
+	@Override
+	public String toString() {
+		return value;
+	};
 }

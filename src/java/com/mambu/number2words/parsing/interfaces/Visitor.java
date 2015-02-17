@@ -21,15 +21,6 @@ import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
 public interface Visitor<V> {
 
 	/**
-	 * Visits the default token.
-	 * 
-	 * @param token
-	 *            - the token to visit.
-	 * @return the result of the visit. May be <code>null</code>.
-	 */
-	public V visit(ValueToken token);
-
-	/**
 	 * Visits the null tokens.
 	 * 
 	 * @param token

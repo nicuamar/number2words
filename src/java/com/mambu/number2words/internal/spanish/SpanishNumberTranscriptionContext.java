@@ -1,6 +1,6 @@
-package com.mambu.number2words.internal.english;
+package com.mambu.number2words.internal.spanish;
 
-import com.mambu.number2words.internal.english.mapping.EnglishNumberMapping;
+import com.mambu.number2words.internal.spanish.mapping.SpanishNumberMapping;
 import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.WordValue.Form;
 import com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber;
@@ -14,14 +14,14 @@ import com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber;
  * @author aatasiei
  *
  */
-public class EnglishNumberTranscriptionContext implements TranscriptionContext {
+public class SpanishNumberTranscriptionContext implements TranscriptionContext {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String asWord(Long value, GrammaticalNumber number, Form form) {
-		return EnglishNumberMapping.fromNumber(value).getWordValue().getWord(number, form);
+		return SpanishNumberMapping.fromNumber(value).getWordValue().getWord(number, form);
 	}
 
 }

@@ -1,0 +1,107 @@
+#
+# JIRA Test Cases
+#
+
+1	uno
+123	ciento veintitres
+1000.13	mil coma trece
+9010000	nueve millones diez mil
+
+#
+# SMALL VALUES without DECIMALS
+#
+0_000	cero
+1_111	mil ciento once
+2_222	dos mil doscientos veintidos
+3_333	tres mil trescientos treinta y tres
+4_444	cuatro mil cuatrocientos cuarenta y cuatro
+5_555	cinco mil quinientos cincuenta y cinco
+6_666	seis mil seiscientos sesenta y seis
+7_777	siete mil setecientos setenta y siete
+8_888	ocho mil ochocientos ochenta y ocho
+9_999	nueve mil novecientos noventa y nueve
+
+10_010	diez mil diez
+11_011	once mil once
+12_012	doce mil doce
+13_013	trece mil trece
+14_014	catorce mil catorce
+15_015	quince mil quince
+16_016	dieciseis mil dieciseis
+17_017	diecisiete mil diecisiete
+18_018	dieciocho mil dieciocho
+19_019	diecinueve mil diecinueve
+
+20_020	veinte mil veinte
+
+#
+# LARGE VALUES without DECIMALS
+#
+22_915_551	veintidos millones novecientos quince mil quinientos cincuenta y uno
+43_000_001	cuarenta y tres millones uno
+
+1_234_567_890	mil doscientos treinta y cuatro millones quinientos sesenta y siete mil ochocientos noventa
+9_999_999_999	nueve mil novecientos noventa y nueve millones novecientos noventa y nueve mil novecientos noventa y nueve
+
+999_999_999_999	novecientos noventa y nueve mil novecientos noventa y nueve millones novecientos noventa y nueve mil novecientos noventa y nueve
+1_000_000_000_000	un billon
+1_000_001_000_001	un billon un millon uno
+
+#
+# OVERFLOWING VALUES
+#
+1_000_000_000_000_000	mil billones
+1_000_000_000_000_000_000	un millon billones
+1_000_000_000_000_000_000_000	mil millones billones
+1_000_000_000_000_000_000_000_000	un billon billones
+
+#
+# SMALL VALUES with DECIMALS
+#
+
+1.20	uno coma veinte
+1.2	uno coma dos
+1_00.100	cien coma cien
+1_00.1	cien coma uno
+
+#
+# LARGE VALUES without DECIMALS
+#
+9_999_999.99	nueve millones novecientos noventa y nueve mil novecientos noventa y nueve coma noventa y nueve
+9_909_909.09	nueve millones novecientos nueve mil novecientos nueve coma nueve
+
+8_888_888.88	ocho millones ochocientos ochenta y ocho mil ochocientos ochenta y ocho coma ochenta y ocho
+8_808_808.08	ocho millones ochocientos ocho mil ochocientos ocho coma ocho
+
+7_777_777.77	siete millones setecientos setenta y siete mil setecientos setenta y siete coma setenta y siete
+7_707_707.07	siete millones setecientos siete mil setecientos siete coma siete
+
+6_666_666.66	seis millones seiscientos sesenta y seis mil seiscientos sesenta y seis coma sesenta y seis
+6_606_606.06	seis millones seiscientos seis mil seiscientos seis coma seis
+
+5_555_555.55	cinco millones quinientos cincuenta y cinco mil quinientos cincuenta y cinco coma cincuenta y cinco
+5_505_505.05	cinco millones quinientos cinco mil quinientos cinco coma cinco
+
+4_444_444.44	cuatro millones cuatrocientos cuarenta y cuatro mil cuatrocientos cuarenta y cuatro coma cuarenta y cuatro
+4_404_404.04	cuatro millones cuatrocientos cuatro mil cuatrocientos cuatro coma cuatro
+
+3_333_333.33	tres millones trescientos treinta y tres mil trescientos treinta y tres coma treinta y tres
+3_303_303.03	tres millones trescientos tres mil trescientos tres coma tres
+
+2_222_222.22	dos millones doscientos veintidos mil doscientos veintidos coma veintidos
+2_202_202.02	dos millones doscientos dos mil doscientos dos coma dos
+
+1_111_111.11	un millon ciento once mil ciento once coma once
+1_101_101.01	un millon ciento uno mil ciento uno coma uno
+
+1_234_567_890.1234567890	mil doscientos treinta y cuatro millones quinientos sesenta y siete mil ochocientos noventa coma mil doscientos treinta y cuatro millones quinientos sesenta y siete mil ochocientos noventa
+
+
+
+
+
+
+
+
+
+

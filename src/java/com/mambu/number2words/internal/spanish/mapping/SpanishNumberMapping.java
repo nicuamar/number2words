@@ -25,12 +25,16 @@ public enum SpanishNumberMapping implements ValueMapping {
 	ZERO(0, "cero"), ONE(1, wordOf(map(DEFAULT, "uno"), map(SHORTENED, "un"))), TWO(2, "dos"), THREE(3, "tres"), FOUR(
 			4, "cuatro"), FIVE(5, "cinco"), SIX(6, "seis"), SEVEN(7, "siete"), EIGHT(8, "ocho"), NINE(9, "nueve"),
 
-	TEN(10, "diez", MappingType.SUBGROUP_QUANTIFIER),
+	TEN(10, "diez"),
 
 	ELEVEN(11, "once"), TWELVE(12, "doce"), THIRTEEN(13, "trece"), FOURTEEN(14, "catorce"), FIFTEEN(15, "quince"), SIXTEEN(
 			16, "dieciseis"), SEVENTEEN(17, "diecisiete"), EIGHTEEN(18, "dieciocho"), NINETEEN(19, "diecinueve"),
 
-	TWENTY(20, "veinte", MappingType.SUBGROUP_QUANTIFIER),
+	TWENTY(20, "veinte"),
+
+	TWENTY_ONE(21, "veintiuno"), TWENTY_TWO(22, "veintidos"), TWENTY_THREE(23, "veintitres"), TWENTY_FOUR(24,
+			"veinticuatro"), TWENTY_FIVE(25, "veinticinco"), TWENTY_SIX(26, "veintiseis"), TWENTY_SEVEN(27,
+			"veintisiete"), TWENTY_EIGHT(28, "veintiocho"), TWENTY_NINE(29, "veintinueve"),
 
 	THIRTY(30, "treinta", MappingType.SUBGROUP_QUANTIFIER),
 
@@ -50,7 +54,7 @@ public enum SpanishNumberMapping implements ValueMapping {
 
 	TWO_HUNDRED(200, "doscientos", MappingType.SUBGROUP_QUANTIFIER),
 
-	THREE_HUNDRED(300, "trecientos", MappingType.SUBGROUP_QUANTIFIER),
+	THREE_HUNDRED(300, "trescientos", MappingType.SUBGROUP_QUANTIFIER),
 
 	FOUR_HUNDRED(400, "cuatrocientos", MappingType.SUBGROUP_QUANTIFIER),
 

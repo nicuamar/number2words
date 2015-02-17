@@ -3,11 +3,19 @@ package com.mambu.number2words.parsing.interfaces;
 public interface WordValue {
 
 	public enum GrammaticalNumber {
-		SINGULAR, PLURAL
+		SINGULAR, PLURAL;
+
+		public static final GrammaticalNumber getOrDefault(GrammaticalNumber number) {
+			return number != null ? number : GrammaticalNumber.SINGULAR;
+		};
 	}
 
 	public enum Form {
-		SHORTENED, DEFAULT
+		SHORTENED, DEFAULT;
+
+		public static final Form getOrDefault(Form form) {
+			return form != null ? form : Form.DEFAULT;
+		};
 	}
 
 	/**

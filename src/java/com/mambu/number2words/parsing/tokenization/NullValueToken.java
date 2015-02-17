@@ -20,4 +20,9 @@ public class NullValueToken implements ValueToken {
 	public <V> V accept(Visitor<V> visitor) {
 		return visitor.visitNullValue(this);
 	}
+
+	@Override
+	public String toString() {
+		return "nill";
+	}
 }

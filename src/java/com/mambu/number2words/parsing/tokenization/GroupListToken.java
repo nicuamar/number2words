@@ -51,4 +51,9 @@ public class GroupListToken implements ValueToken {
 	public <V> V accept(Visitor<V> visitor) {
 		return visitor.visitGroupList(this);
 	}
+
+	@Override
+	public String toString() {
+		return groupList.toString();
+	}
 }

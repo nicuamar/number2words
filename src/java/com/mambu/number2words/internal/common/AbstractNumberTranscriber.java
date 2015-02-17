@@ -78,6 +78,6 @@ public abstract class AbstractNumberTranscriber implements NumberTranscriber {
 	 *            - the {@link TranscriptionContext} used for token evaluation. Not <code>null</code>.
 	 * @return {@link Visitor Visitor&lt;Void&gt;} implementation. Never <code>null</code>.
 	 */
-	protected abstract Visitor<Void> getTokenVisitor(final StringBuilder builder, final TranscriptionContext context);
+	protected abstract Visitor<?> getTokenVisitor(final StringBuilder builder, final TranscriptionContext context);
 
 }
