@@ -1,11 +1,11 @@
 package com.mambu.number2words.internal.spanish.mapping;
 
-import static com.mambu.number2words.internal.common.mapping.SimpleWordValue.wordOf;
-import static com.mambu.number2words.internal.common.mapping.SimpleWordValue.MappingWordData.map;
-import static com.mambu.number2words.parsing.interfaces.WordValue.WordForm.DEFAULT;
-import static com.mambu.number2words.parsing.interfaces.WordValue.WordForm.SHORTENED;
+import static com.mambu.number2words.internal.common.mapping.WordFactory.map;
+import static com.mambu.number2words.internal.common.mapping.WordFactory.wordFrom;
 import static com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber.PLURAL;
 import static com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber.SINGULAR;
+import static com.mambu.number2words.parsing.interfaces.WordValue.WordForm.DEFAULT;
+import static com.mambu.number2words.parsing.interfaces.WordValue.WordForm.SHORTENED;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ import com.mambu.number2words.parsing.interfaces.WordValue;
  */
 public enum SpanishNumberMapping implements ValueMapping {
 
-	ZERO(0, "cero"), ONE(1, wordOf(map(DEFAULT, "uno"), map(SHORTENED, "un"))), TWO(2, "dos"), THREE(3, "tres"), FOUR(
+	ZERO(0, "cero"), ONE(1, wordFrom(map(DEFAULT, "uno"), map(SHORTENED, "un"))), TWO(2, "dos"), THREE(3, "tres"), FOUR(
 			4, "cuatro"), FIVE(5, "cinco"), SIX(6, "seis"), SEVEN(7, "siete"), EIGHT(8, "ocho"), NINE(9, "nueve"),
 
 	TEN(10, "diez"),
@@ -50,7 +50,7 @@ public enum SpanishNumberMapping implements ValueMapping {
 
 	NINETY(90, "noventa", MappingType.SUBGROUP_QUANTIFIER),
 
-	HUNDRED(100, wordOf(map(DEFAULT, "ciento"), map(SHORTENED, "cien")), MappingType.SUBGROUP_QUANTIFIER),
+	HUNDRED(100, wordFrom(map(DEFAULT, "ciento"), map(SHORTENED, "cien")), MappingType.SUBGROUP_QUANTIFIER),
 
 	TWO_HUNDRED(200, "doscientos", MappingType.SUBGROUP_QUANTIFIER),
 
@@ -70,9 +70,10 @@ public enum SpanishNumberMapping implements ValueMapping {
 
 	THOUSAND(1_000, "mil", MappingType.GROUP_QUANTIFIER),
 
-	MILLION(1_000_000, wordOf(map(SINGULAR, "millon"), map(PLURAL, "millones")), MappingType.GROUP_QUANTIFIER),
+	MILLION(1_000_000, wordFrom(map(SINGULAR, "millon"), map(PLURAL, "millones")), MappingType.GROUP_QUANTIFIER),
 
-	TRILLION(1_000_000_000_000L, wordOf(map(SINGULAR, "billon"), map(PLURAL, "billones")), MappingType.GROUP_QUANTIFIER);
+	TRILLION(1_000_000_000_000L, wordFrom(map(SINGULAR, "billon"), map(PLURAL, "billones")),
+			MappingType.GROUP_QUANTIFIER);
 
 	/**
 	 * Holds the direct mappings from value to enum instance.
@@ -108,7 +109,7 @@ public enum SpanishNumberMapping implements ValueMapping {
 	 *            - the String representation.
 	 */
 	SpanishNumberMapping(long value, String word) {
-		this(value, wordOf(word), MappingType.SIMPLE);
+		this(value, wordFrom(word), MappingType.SIMPLE);
 	}
 
 	SpanishNumberMapping(long value, WordValue word) {
@@ -116,7 +117,7 @@ public enum SpanishNumberMapping implements ValueMapping {
 	}
 
 	SpanishNumberMapping(long value, String word, MappingType mappingType) {
-		this(value, wordOf(word), mappingType);
+		this(value, wordFrom(word), mappingType);
 	}
 
 	/**

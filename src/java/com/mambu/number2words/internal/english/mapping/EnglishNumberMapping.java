@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import com.mambu.number2words.internal.common.mapping.SimpleWordValue;
+import com.mambu.number2words.internal.common.mapping.WordFactory;
 import com.mambu.number2words.parsing.interfaces.ValueMapping;
 import com.mambu.number2words.parsing.interfaces.WordValue;
 
@@ -21,8 +21,8 @@ public enum EnglishNumberMapping implements ValueMapping {
 
 	TEN(10, "ten", MappingType.SUBGROUP_QUANTIFIER),
 
-	ELEVEN(11, "eleven"), TWELVE(12, "twelve"), THIRTEEN(13, "thirteen"), FOURTEEN(14, "fourteen"), FIFTEEN(
-			15, "fifteen"), SIXTEEN(16, "sixteen"), SEVENTEEN(17, "seventeen"), EIGHTEEN(18, "eighteen"), NINETEEN(19,
+	ELEVEN(11, "eleven"), TWELVE(12, "twelve"), THIRTEEN(13, "thirteen"), FOURTEEN(14, "fourteen"), FIFTEEN(15,
+			"fifteen"), SIXTEEN(16, "sixteen"), SEVENTEEN(17, "seventeen"), EIGHTEEN(18, "eighteen"), NINETEEN(19,
 			"nineteen"),
 
 	TWENTY(20, "twenty"), THIRTY(30, "thirty"), FOURTY(40, "forty"), FIFTY(50, "fifty"), SIXTY(60, "sixty"), SEVENTY(
@@ -87,7 +87,7 @@ public enum EnglishNumberMapping implements ValueMapping {
 	 */
 	EnglishNumberMapping(long value, String word, MappingType mappingType) {
 		this.value = value;
-		this.word = SimpleWordValue.wordOf(word);
+		this.word = WordFactory.wordFrom(word);
 		this.mappingType = mappingType;
 	}
 
