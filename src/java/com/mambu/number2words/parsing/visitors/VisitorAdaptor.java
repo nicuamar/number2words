@@ -1,9 +1,5 @@
 package com.mambu.number2words.parsing.visitors;
 
-import java.util.Objects;
-
-import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
-import com.mambu.number2words.parsing.interfaces.ValueToken;
 import com.mambu.number2words.parsing.interfaces.Visitor;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
 import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
@@ -21,18 +17,9 @@ import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
 public abstract class VisitorAdaptor<T> implements Visitor<T> {
 
 	/**
-	 * {@link ValueToken} evaluation context for this visitor.
-	 */
-	protected final TranscriptionContext context;
-
-	/**
 	 * Default constructor
-	 * 
-	 * @param context
-	 *            - context holding the necessary visiting information.
 	 */
-	protected VisitorAdaptor(TranscriptionContext context) {
-		this.context = Objects.requireNonNull(context, "Transcription context can not be null.");
+	protected VisitorAdaptor() {
 	}
 
 	/**

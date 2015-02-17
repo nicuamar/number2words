@@ -11,7 +11,7 @@ import com.mambu.number2words.parsing.tokenization.MappedValueToken;
 import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
 import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
 import com.mambu.number2words.parsing.visitors.AbstractTranscribingVisitor;
-import com.mambu.number2words.parsing.visitors.AccumulateMaxVisitor;
+import com.mambu.number2words.parsing.visitors.MaximumAccumulator;
 
 /**
  * {@link ValueToken} visitor for Spanish numbers. It will build or print a {@link String} representation of a tree of
@@ -32,7 +32,7 @@ public class SpanishTokenVisitor extends AbstractTranscribingVisitor {
 	/**
 	 * Visitor used to determine the maximum value on a ValueToken tree.
 	 */
-	private AccumulateMaxVisitor maxAccumulator;
+	private MaximumAccumulator maxAccumulator;
 
 	/**
 	 * The grammatical number (SINGULAR/PLURAL) of the word being printed ("millon" vs "millones").
@@ -57,7 +57,7 @@ public class SpanishTokenVisitor extends AbstractTranscribingVisitor {
 	 */
 	public SpanishTokenVisitor(StringBuilder builder, TranscriptionContext context) {
 		super(context, builder, WORD_SEPARATOR);
-		this.maxAccumulator = new AccumulateMaxVisitor(context);
+		this.maxAccumulator = new MaximumAccumulator();
 	}
 
 	/**

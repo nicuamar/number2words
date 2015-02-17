@@ -4,8 +4,8 @@ import java.util.Objects;
 
 import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
-import com.mambu.number2words.parsing.interfaces.WordValue.WordForm;
 import com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber;
+import com.mambu.number2words.parsing.interfaces.WordValue.WordForm;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
 import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
@@ -31,6 +31,11 @@ public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
 	protected final String wordSeparator;
 
 	/**
+	 * {@link ValueToken} evaluation context for this visitor.
+	 */
+	protected final TranscriptionContext context;
+
+	/**
 	 * Default constructor
 	 * 
 	 * @param context
@@ -42,8 +47,8 @@ public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
 	 */
 	protected AbstractTranscribingVisitor(final TranscriptionContext context, final StringBuilder builder,
 			final String wordSeparator) {
-		super(context);
 
+		this.context = Objects.requireNonNull(context, "Transcription context can not be null.");
 		this.builder = Objects.requireNonNull(builder, "Builder can not be null");
 
 		this.wordSeparator = Objects.requireNonNull(wordSeparator,

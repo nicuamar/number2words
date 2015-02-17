@@ -1,6 +1,5 @@
 package com.mambu.number2words.parsing.visitors;
 
-import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
 import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
@@ -10,41 +9,31 @@ import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
 import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
 
 /**
- * Adaptor for visitors that use {@link StringBuilder} instances to transcribe {@link ValueToken}s.
+ * Visitor that retrieves maximum values form {@link ValueToken}s trees.
  * 
  * @author aatasiei
  *
  */
-public class AccumulateMaxVisitor extends VisitorAdaptor<Long> {
+public class MaximumAccumulator extends VisitorAdaptor<Long> {
 
 	/**
 	 * Default constructor
-	 * 
-	 * @param context
-	 *            - the context that holds the number to word mapping information.
-	 * 
-	 * @param builder
-	 *            - {@link StringBuilder} the {@link ValueToken} word representation will be appended.
-	 * 
 	 */
-	public AccumulateMaxVisitor(final TranscriptionContext context) {
-		super(context);
+	public MaximumAccumulator() {
 	}
 
 	/**
 	 * Visits the {@link GroupListToken} tokens.
 	 * <p>
-	 * Will append the word representations of each of the children.
-	 * <p>
-	 * Example: 10100: "ten thousand", "one hundred".
+	 * Will retrieve the maximum from all the tokens within the list and then return the maximum amongst them.
 	 */
 	@Override
-	public Long visitGroupList(GroupListToken token) {
+	public Long visitGroupList(final GroupListToken token) {
 
 		Long maxValue = 0L;
 
 		// for all tokens in the list
-		for (ValueToken gr : token.getList()) {
+		for (final ValueToken gr : token.getList()) {
 
 			// accept the visitor
 			final Long value = gr.accept(this);
@@ -60,31 +49,26 @@ public class AccumulateMaxVisitor extends VisitorAdaptor<Long> {
 	/**
 	 * Visits the {@link MappedValueToken} tokens (leaf nodes).
 	 * <p>
-	 * Will append the word representation mapped by {@link TranscriptionContext context}.
-	 * <p>
-	 * Example: all values 0-20, then 30, 40, 50, etc...
+	 * Will retrieve the value associated with this token.
 	 */
 	@Override
 	public Long visitMappedValue(MappedValueToken token) {
 
-		// mapped value tokens should be represented by a single string
 		return token.getMappedValue();
 	}
 
 	/**
 	 * Visits the {@link PrefixedValueToken} tokens.
 	 * <p>
-	 * Will append the word representation for the prefix and then the value.
-	 * <p>
-	 * Example: 22: "twenty" "two".
+	 * Will retrieve the maximum between the tokens contained.
 	 */
 	@Override
 	public Long visitPrefixedValue(PrefixedValueToken token) {
 
 		// prefix
-		Long prefixValue = token.getPrefixToken().accept(this);
+		final Long prefixValue = token.getPrefixToken().accept(this);
 		// value
-		Long value = token.getValueToken().accept(this);
+		final Long value = token.getValueToken().accept(this);
 
 		return Math.max(prefixValue, value);
 	}
@@ -92,26 +76,30 @@ public class AccumulateMaxVisitor extends VisitorAdaptor<Long> {
 	/**
 	 * Visits the {@link SuffixedValueToken} tokens.
 	 * <p>
-	 * Will append the word representation for the value and then the suffix.
-	 * <p>
-	 * Example: 100: "one" "hundred".
+	 * Will retrieve the maximum between the tokens contained.
 	 */
 	@Override
 	public Long visitSuffixedValue(SuffixedValueToken token) {
 
 		// value
-		Long value = token.getValueToken().accept(this);
+		final Long value = token.getValueToken().accept(this);
 		// suffix
-		Long suffixValue = token.getSuffixToken().accept(this);
+		final Long suffixValue = token.getSuffixToken().accept(this);
 
 		return Math.max(value, suffixValue);
 	}
 
+	/**
+	 * Visits {@link LiteralValueToken} tokens. The maximum for these is 0.
+	 */
 	@Override
 	public Long visitLiteral(LiteralValueToken token) {
 		return 0L;
 	}
 
+	/**
+	 * Visits {@link NullValueToken} tokens. The maximum for these is 0.
+	 */
 	@Override
 	public Long visitNullValue(NullValueToken token) {
 		return 0L;
