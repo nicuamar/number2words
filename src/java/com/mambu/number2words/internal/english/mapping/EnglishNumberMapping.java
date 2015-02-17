@@ -55,7 +55,7 @@ public enum EnglishNumberMapping implements ValueMapping {
 	 */
 	private long value;
 	/**
-	 * String to be used when transcribing the value.
+	 * {@link WordValue} to be used when transcribing the value.
 	 */
 	private WordValue word;
 	/**

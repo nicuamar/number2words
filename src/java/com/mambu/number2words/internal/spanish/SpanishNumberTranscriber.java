@@ -7,7 +7,7 @@ import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.Visitor;
 
 /**
- * Number transcriber for the English language.
+ * Number transcriber for the Spanish language.
  * 
  * @author aatasiei
  *
@@ -18,7 +18,7 @@ public class SpanishNumberTranscriber extends AbstractNumberTranscriber {
 	 * Constructor that is used to initialize this transcriber with a tokenizer and context.
 	 * 
 	 * @param tokenizer
-	 *            - tokenizer for English. Not <code>null</code>.
+	 *            - tokenizer for Spanish. Not <code>null</code>.
 	 * @param context
 	 *            - evaluation context when transcribing tokens. Not <code>null</code>.
 	 */

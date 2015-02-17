@@ -65,6 +65,9 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 	 */
 	private final List<T> subGroupQuantifiers;
 
+	/**
+	 * {@link Enum} class instance used to map numbers to words. This is required to gather group divisor information.
+	 */
 	private Class<T> enumClass;
 
 	/**
@@ -123,24 +126,39 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 
 	/**
 	 * The value of the smallest group that can be used to arithmetically divide a number into multiple sections.
+	 * <p>
+	 * Based on the current and the previous group's quantifiers we <i>decide</i> the group size.
+	 * <p>
+	 * While for most languages the groups are of equals sizes, there are exceptions. For example, Spanish has million -
+	 * 10<sup>6</sup> and then billion - 10<sup>12</sup>. The 10<sup>6</sup> group range value must be handled in the
+	 * million group.
 	 * 
-	 * @param i
+	 * @param currentGroupIndex
+	 *            - the current group index. For example 0 is units, 1 can be thousands, 2 can be millions.
 	 * 
 	 * @see QuantifyingMappingsHelper#minGroupQuantifier(Class).
 	 * @return the value of the grouping divisor.
 	 */
-	protected BigInteger getGroupingDivisor(int i) {
+	protected BigInteger getGroupingDivisor(final int currentGroupIndex) {
 
-		if (i == 0 || i >= maximumGroupIndex) {
+		if (currentGroupIndex == 0 || currentGroupIndex >= maximumGroupIndex) {
+			// the first group is the minimum
+
 			return BigInteger.valueOf(QuantifyingMappingsHelper.minGroupQuantifier(enumClass).getValue());
+
 		} else {
-			// the difference between the following group and the current group is the divisor
+
+			// the "difference" between the following group and the current group is the divisor
 			// this is because some groups can be sometimes larger than others.
 			// for example, in Spanish, after 1 million (10^6) the next group is 1 billion (10^12)
+
+			// quantifiers are in reverse order
 			final List<T> quantifiers = QuantifyingMappingsHelper.groupQuantifiers(enumClass);
 
-			final Long currentGroupQuantifier = quantifiers.get(quantifiers.size() - 1 - i + 1).getValue();
-			final Long nextGroupQuantifier = quantifiers.get(quantifiers.size() - 1 - i).getValue();
+			final int lastGroupIndex = quantifiers.size() - 1;
+
+			final Long currentGroupQuantifier = quantifiers.get(lastGroupIndex - currentGroupIndex + 1).getValue();
+			final Long nextGroupQuantifier = quantifiers.get(lastGroupIndex - currentGroupIndex).getValue();
 
 			return BigInteger.valueOf(nextGroupQuantifier / currentGroupQuantifier);
 		}
@@ -240,10 +258,11 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 			final BigInteger fractionalPart = getFractional(number, integerPart);
 			final ValueToken fractionalPartToken = tokenize(fractionalPart);
 
-			// 3. merge the two parts
-			return new GroupListToken(Arrays.asList(new ValueToken[] { integerPartToken,
-					new LiteralValueToken(getDecimalSeparator()), fractionalPartToken }));
+			// 3. merge the two parts with the decimal separator in-between
+			final ValueToken[] tokensForDecimalValue = new ValueToken[] { integerPartToken,
+					new LiteralValueToken(getDecimalSeparator()), fractionalPartToken };
 
+			return new GroupListToken(Arrays.asList(tokensForDecimalValue));
 		}
 
 		// no values to the right of the decimal point. return the integer token.
@@ -292,7 +311,15 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 		return groups;
 	}
 
-	protected List<ValueToken> parseLargeValue(final BigInteger number) {
+	/**
+	 * Parses a number (>0) and returns the list of tokens (in reverse order) that resulted.
+	 * 
+	 * @param number
+	 *            - the {@link BigInteger} to parse. Not <code>null</code>.
+	 * @return a list of {@link ValueToken}s in reverse order. Never <code>null</code>.
+	 */
+	private List<ValueToken> parseLargeValue(final BigInteger number) {
+
 		final List<ValueToken> groups = new ArrayList<ValueToken>();
 
 		BigInteger toTokenize = number;
