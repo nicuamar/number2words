@@ -6,7 +6,6 @@ import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
 import com.mambu.number2words.parsing.interfaces.WordValue.Form;
 import com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber;
-import com.mambu.number2words.parsing.tokenization.DecimalValueToken;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
 import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
@@ -136,27 +135,6 @@ public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
 		builder.append(wordSeparator);
 		// write suffix
 		token.getSuffixToken().accept(this);
-
-		return null;
-	}
-
-	/**
-	 * Visits the {@link DecimalValueToken} tokens.
-	 * <p>
-	 * Will append the word representation for the value before the decimal point, then add the decimal point
-	 * representation, then the word representation for the value after the decimal point. *
-	 * <p>
-	 * Example: 100.12: "one hundred" "and" "twelve"
-	 */
-	@Override
-	public Void visitDecimalValue(DecimalValueToken token) {
-
-		// write the integer part
-		token.getIntegerPart().accept(this);
-		// write the decimal separator
-		builder.append(wordSeparator).append(token.getDecimalSeparator()).append(wordSeparator);
-		// write the fractional part
-		token.getFractionalPart().accept(this);
 
 		return null;
 	}

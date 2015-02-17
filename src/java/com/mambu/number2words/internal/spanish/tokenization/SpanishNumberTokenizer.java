@@ -59,8 +59,6 @@ public class SpanishNumberTokenizer extends AbstractGroupedValuesTokenizer<Spani
 
 		final long lastDigits = groupValue % subGroupQuantifier;
 
-		final long subGroupMultiplier = groupValue / subGroupQuantifier;
-
 		if (lastDigits == 0) {
 			// 10, 20, 30, ... 90, 100, 200, 300, etc...
 			return mappedValue(groupValue);

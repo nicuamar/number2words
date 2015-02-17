@@ -4,7 +4,6 @@ import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
 import com.mambu.number2words.parsing.interfaces.WordValue.Form;
 import com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber;
-import com.mambu.number2words.parsing.tokenization.DecimalValueToken;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
 import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
@@ -13,7 +12,7 @@ import com.mambu.number2words.parsing.visitors.AbstractTranscribingVisitor;
 import com.mambu.number2words.parsing.visitors.AccumulateMaxVisitor;
 
 /**
- * {@link ValueToken} visitor for English numbers. It will build or print a {@link String} representation of a tree of
+ * {@link ValueToken} visitor for Spanish numbers. It will build or print a {@link String} representation of a tree of
  * {@link ValueToken}s.
  * <p>
  * Not thread safe.
@@ -47,11 +46,6 @@ public class SpanishTokenVisitor extends AbstractTranscribingVisitor {
 	public SpanishTokenVisitor(StringBuilder builder, TranscriptionContext context) {
 		super(context, builder, WORD_SEPARATOR);
 		this.maxAccumulator = new AccumulateMaxVisitor(context);
-	}
-
-	@Override
-	public Void visitDecimalValue(DecimalValueToken token) {
-		throw new IllegalStateException();
 	}
 
 	@Override
@@ -187,4 +181,5 @@ public class SpanishTokenVisitor extends AbstractTranscribingVisitor {
 
 		return null;
 	}
+
 }

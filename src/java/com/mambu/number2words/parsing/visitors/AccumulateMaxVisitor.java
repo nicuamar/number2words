@@ -2,7 +2,6 @@ package com.mambu.number2words.parsing.visitors;
 
 import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
-import com.mambu.number2words.parsing.tokenization.DecimalValueToken;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
 import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
@@ -106,20 +105,6 @@ public class AccumulateMaxVisitor extends VisitorAdaptor<Long> {
 		Long suffixValue = token.getSuffixToken().accept(this);
 
 		return Math.max(value, suffixValue);
-	}
-
-	/**
-	 * Visits the {@link DecimalValueToken} tokens.
-	 * <p>
-	 * Will append the word representation for the value before the decimal point, then add the decimal point
-	 * representation, then the word representation for the value after the decimal point. *
-	 * <p>
-	 * Example: 100.12: "one hundred" "and" "twelve"
-	 */
-	@Override
-	public Long visitDecimalValue(DecimalValueToken token) {
-
-		throw new IllegalStateException();
 	}
 
 	@Override

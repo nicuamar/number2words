@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
 import com.mambu.number2words.parsing.interfaces.Visitor;
-import com.mambu.number2words.parsing.tokenization.DecimalValueToken;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
 import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
@@ -77,15 +76,6 @@ public abstract class VisitorAdaptor<T> implements Visitor<T> {
 	 */
 	@Override
 	public T visitSuffixedValue(SuffixedValueToken token) {
-		// default: accept all
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public T visitDecimalValue(DecimalValueToken token) {
 		// default: accept all
 		return null;
 	}

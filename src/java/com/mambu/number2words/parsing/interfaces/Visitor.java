@@ -1,6 +1,5 @@
 package com.mambu.number2words.parsing.interfaces;
 
-import com.mambu.number2words.parsing.tokenization.DecimalValueToken;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
 import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
@@ -64,15 +63,6 @@ public interface Visitor<V> {
 	 * @return the result of the visit. May be <code>null</code>.
 	 */
 	public V visitSuffixedValue(SuffixedValueToken token);
-
-	/**
-	 * Visits the value tokens which hold a decimal value.
-	 * 
-	 * @param token
-	 *            - the token to visit.
-	 * @return the result of the visit. May be <code>null</code>.
-	 */
-	public V visitDecimalValue(DecimalValueToken token);
 
 	public V visitLiteral(LiteralValueToken literalValueToken);
 
