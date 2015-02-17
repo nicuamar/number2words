@@ -17,7 +17,7 @@ import com.mambu.number2words.internal.common.FileValuesTestHelper;
 import com.mambu.number2words.internal.spanish.tokenization.SpanishNumberTokenizer;
 
 /**
- * Tests for the English number transcription.
+ * Tests for the Spanish number transcription.
  * 
  * @author aatasiei
  *

@@ -17,7 +17,7 @@ import com.mambu.number2words.internal.common.FileValuesTestHelper;
 import com.mambu.number2words.internal.simplifiedchinese.financial.tokenization.SimplifiedChineseFinancialNumberTokenizer;
 
 /**
- * Tests for the English number transcription.
+ * Tests for the Simplified Chinese number transcription.
  * 
  * @author aatasiei
  *
