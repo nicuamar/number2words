@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import com.mambu.number2words.internal.common.mapping.WordFactory;
+import com.mambu.number2words.internal.common.mapping.WordValueFactory;
 import com.mambu.number2words.parsing.interfaces.ValueMapping;
 import com.mambu.number2words.parsing.interfaces.WordValue;
 
@@ -82,7 +82,7 @@ public enum SimplifiedChineseFinancialNumberMapping implements ValueMapping {
 	 */
 	SimplifiedChineseFinancialNumberMapping(long value, String word, MappingType mappingType) {
 		this.value = value;
-		this.word = WordFactory.wordFrom(word);
+		this.word = WordValueFactory.wordFrom(word);
 		this.mappingType = mappingType;
 	}
 

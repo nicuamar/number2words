@@ -11,9 +11,9 @@ import com.mambu.number2words.parsing.interfaces.WordValue.WordForm;
  * @author aatasiei
  *
  */
-public final class WordFactory {
+public final class WordValueFactory {
 
-	private WordFactory() {
+	private WordValueFactory() {
 		// factory class
 	}
 

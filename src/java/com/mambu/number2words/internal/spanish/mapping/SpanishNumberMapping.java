@@ -1,7 +1,7 @@
 package com.mambu.number2words.internal.spanish.mapping;
 
-import static com.mambu.number2words.internal.common.mapping.WordFactory.map;
-import static com.mambu.number2words.internal.common.mapping.WordFactory.wordFrom;
+import static com.mambu.number2words.internal.common.mapping.WordValueFactory.map;
+import static com.mambu.number2words.internal.common.mapping.WordValueFactory.wordFrom;
 import static com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber.PLURAL;
 import static com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber.SINGULAR;
 import static com.mambu.number2words.parsing.interfaces.WordValue.WordForm.DEFAULT;
