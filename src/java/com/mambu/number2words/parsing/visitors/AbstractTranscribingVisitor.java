@@ -39,10 +39,13 @@ public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
 	 * Default constructor
 	 * 
 	 * @param context
-	 *            - the context that holds the number to word mapping information.
-	 * 
+	 *            - the context that holds the number to word mapping information. Not <code>null</code>.
 	 * @param builder
-	 *            - {@link StringBuilder} the {@link ValueToken} word representation will be appended.
+	 *            - {@link StringBuilder} the {@link ValueToken} word representation will be appended. Not
+	 *            <code>null</code>.
+	 * 
+	 * @param wordSeparator
+	 *            - the string that should be placed between words. Not <code>null</code>.
 	 * 
 	 */
 	protected AbstractTranscribingVisitor(final TranscriptionContext context, final StringBuilder builder,
@@ -144,6 +147,11 @@ public abstract class AbstractTranscribingVisitor extends VisitorAdaptor<Void> {
 		return null;
 	}
 
+	/**
+	 * Visits the {@link LiteralValueToken} tokens.
+	 * <p>
+	 * Will append the string literal is it present in the token.
+	 */
 	@Override
 	public Void visitLiteral(LiteralValueToken literalValueToken) {
 

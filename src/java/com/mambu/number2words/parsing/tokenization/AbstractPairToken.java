@@ -46,6 +46,9 @@ public abstract class AbstractPairToken implements ValueToken {
 		return right;
 	}
 
+	/**
+	 * @return "["+ left + ", " + right + "]"
+	 */
 	@Override
 	public String toString() {
 		return "[" + left.toString() + ", " + right.toString() + "]";
