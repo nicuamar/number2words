@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import com.mambu.number2words.internal.common.mapping.WordValueFactory;
 import com.mambu.number2words.parsing.interfaces.ValueMapping;
+import com.mambu.number2words.parsing.interfaces.WordValue;
 
 /**
  * Listing of all the English numbers that can be mapped to a word.
@@ -19,8 +21,8 @@ public enum EnglishNumberMapping implements ValueMapping {
 
 	TEN(10, "ten", MappingType.SUBGROUP_QUANTIFIER),
 
-	ELEVEN(11, "eleven"), TWELVE(12, "twelve"), THIRTEEN(13, "thirteen"), FOURTEEN(14, "fourteen"), FIFTEEN(
-			15, "fifteen"), SIXTEEN(16, "sixteen"), SEVENTEEN(17, "seventeen"), EIGHTEEN(18, "eighteen"), NINETEEN(19,
+	ELEVEN(11, "eleven"), TWELVE(12, "twelve"), THIRTEEN(13, "thirteen"), FOURTEEN(14, "fourteen"), FIFTEEN(15,
+			"fifteen"), SIXTEEN(16, "sixteen"), SEVENTEEN(17, "seventeen"), EIGHTEEN(18, "eighteen"), NINETEEN(19,
 			"nineteen"),
 
 	TWENTY(20, "twenty"), THIRTY(30, "thirty"), FOURTY(40, "forty"), FIFTY(50, "fifty"), SIXTY(60, "sixty"), SEVENTY(
@@ -53,9 +55,9 @@ public enum EnglishNumberMapping implements ValueMapping {
 	 */
 	private long value;
 	/**
-	 * String to be used when transcribing the value.
+	 * {@link WordValue} to be used when transcribing the value.
 	 */
-	private String word;
+	private WordValue word;
 	/**
 	 * True, if the instance represents a group. For example: "thousand", "million", etc...
 	 */
@@ -85,7 +87,7 @@ public enum EnglishNumberMapping implements ValueMapping {
 	 */
 	EnglishNumberMapping(long value, String word, MappingType mappingType) {
 		this.value = value;
-		this.word = word;
+		this.word = WordValueFactory.wordFrom(word);
 		this.mappingType = mappingType;
 	}
 
@@ -93,7 +95,7 @@ public enum EnglishNumberMapping implements ValueMapping {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getWord() {
+	public WordValue getWordValue() {
 		return word;
 	}
 

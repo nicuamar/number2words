@@ -30,7 +30,7 @@ public class GroupListToken implements ValueToken {
 	 * @param groupList
 	 *            - a list of {@link ValueToken}s. Not <code>null</code>. Token takes ownership.
 	 */
-	public GroupListToken(List<ValueToken> groupList) {
+	public GroupListToken(final List<ValueToken> groupList) {
 		// tokens are immutable
 		this.groupList = Collections.unmodifiableList(groupList);
 	}
@@ -50,5 +50,13 @@ public class GroupListToken implements ValueToken {
 	@Override
 	public <V> V accept(Visitor<V> visitor) {
 		return visitor.visitGroupList(this);
+	}
+
+	/**
+	 * @return the list as a string.
+	 */
+	@Override
+	public String toString() {
+		return groupList.toString();
 	}
 }

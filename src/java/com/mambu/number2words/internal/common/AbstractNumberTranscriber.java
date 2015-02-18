@@ -29,11 +29,11 @@ public abstract class AbstractNumberTranscriber implements NumberTranscriber {
 	/**
 	 * The tokenizer for a specific language.
 	 */
-	private NumberTokenizer tokenizer;
+	private final NumberTokenizer tokenizer;
 	/**
 	 * Evaluation context used to transcribe the tokens.
 	 */
-	private TranscriptionContext context;
+	private final TranscriptionContext context;
 
 	/**
 	 * Default constructor.
@@ -61,7 +61,7 @@ public abstract class AbstractNumberTranscriber implements NumberTranscriber {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void appendWords(final StringBuilder builder, final BigDecimal number) {
+	public final void appendWords(final StringBuilder builder, final BigDecimal number) {
 
 		final ValueToken root = tokenizer.tokenize(number);
 
@@ -78,6 +78,6 @@ public abstract class AbstractNumberTranscriber implements NumberTranscriber {
 	 *            - the {@link TranscriptionContext} used for token evaluation. Not <code>null</code>.
 	 * @return {@link Visitor Visitor&lt;Void&gt;} implementation. Never <code>null</code>.
 	 */
-	protected abstract Visitor<Void> getTokenVisitor(final StringBuilder builder, final TranscriptionContext context);
+	protected abstract Visitor<?> getTokenVisitor(final StringBuilder builder, final TranscriptionContext context);
 
 }

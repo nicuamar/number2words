@@ -1,5 +1,6 @@
 package com.mambu.number2words.parsing.tokenization;
 
+import com.mambu.number2words.parsing.interfaces.ValueMapping.MappingType;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
 import com.mambu.number2words.parsing.interfaces.Visitor;
 
@@ -15,7 +16,8 @@ import com.mambu.number2words.parsing.interfaces.Visitor;
  */
 public class MappedValueToken implements ValueToken {
 
-	private long value;
+	private final long value;
+	private final MappingType mappingType;
 
 	/**
 	 * Constructor for {@link MappedValueToken}.
@@ -24,10 +26,23 @@ public class MappedValueToken implements ValueToken {
 	 *            - the long value that this token should map. Must not be negative.
 	 */
 	public MappedValueToken(long value) {
+		this(value, MappingType.SIMPLE);
+	}
+
+	/**
+	 * Constructor for {@link MappedValueToken} which also supplies {@link MappingType}.
+	 * 
+	 * @param value
+	 *            - the long value that this token should map. Must not be negative.
+	 * @param type
+	 *            - the mapping type. This can be used to identify group quantifiers during visits, when necessary.
+	 */
+	public MappedValueToken(long value, MappingType type) {
 		if (value < 0) {
 			throw new IllegalArgumentException("Negative values are not currently supported.");
 		}
 		this.value = value;
+		this.mappingType = type;
 	}
 
 	/**
@@ -40,10 +55,27 @@ public class MappedValueToken implements ValueToken {
 	}
 
 	/**
+	 * Gets the mapping type of this token.
+	 * 
+	 * @return the mappingType
+	 */
+	public MappingType getMappingType() {
+		return mappingType;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public <V> V accept(Visitor<V> visitor) {
 		return visitor.visitMappedValue(this);
+	}
+
+	/**
+	 * @return mapping type + ": " + value
+	 */
+	@Override
+	public String toString() {
+		return mappingType + ": " + value;
 	}
 }

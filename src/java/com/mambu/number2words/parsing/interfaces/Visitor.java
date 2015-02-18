@@ -1,7 +1,7 @@
 package com.mambu.number2words.parsing.interfaces;
 
-import com.mambu.number2words.parsing.tokenization.DecimalValueToken;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
+import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
 import com.mambu.number2words.parsing.tokenization.NullValueToken;
 import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
@@ -18,15 +18,6 @@ import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
  *            the type that should be returned for all visits. This can be helpful in making the visitor state-less.
  */
 public interface Visitor<V> {
-
-	/**
-	 * Visits the default token.
-	 * 
-	 * @param token
-	 *            - the token to visit.
-	 * @return the result of the visit. May be <code>null</code>.
-	 */
-	public V visit(ValueToken token);
 
 	/**
 	 * Visits the null tokens.
@@ -73,13 +64,6 @@ public interface Visitor<V> {
 	 */
 	public V visitSuffixedValue(SuffixedValueToken token);
 
-	/**
-	 * Visits the value tokens which hold a decimal value.
-	 * 
-	 * @param token
-	 *            - the token to visit.
-	 * @return the result of the visit. May be <code>null</code>.
-	 */
-	public V visitDecimalValue(DecimalValueToken token);
+	public V visitLiteral(LiteralValueToken literalValueToken);
 
 }

@@ -4,9 +4,13 @@ import java.util.Objects;
 
 import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
-import com.mambu.number2words.parsing.tokenization.DecimalValueToken;
+import com.mambu.number2words.parsing.interfaces.Visitor;
+import com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber;
+import com.mambu.number2words.parsing.interfaces.WordValue.WordForm;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
+import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
+import com.mambu.number2words.parsing.tokenization.NullValueToken;
 import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
 import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
 
@@ -16,32 +20,40 @@ import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
  * @author aatasiei
  *
  */
-public abstract class AbstractTranscribingVisitor extends VoidVisitorAdaptor {
+public abstract class AbstractTranscribingVisitor implements Visitor<Void> {
 
 	/**
 	 * String builder to which the {@link ValueToken} word representation will be appended.
 	 */
-	private final StringBuilder builder;
+	protected final StringBuilder builder;
 
 	/**
 	 * String separator to be appended between words.
 	 */
-	private final String wordSeparator;
+	protected final String wordSeparator;
+
+	/**
+	 * {@link ValueToken} evaluation context for this visitor.
+	 */
+	protected final TranscriptionContext context;
 
 	/**
 	 * Default constructor
 	 * 
 	 * @param context
-	 *            - the context that holds the number to word mapping information.
-	 * 
+	 *            - the context that holds the number to word mapping information. Not <code>null</code>.
 	 * @param builder
-	 *            - {@link StringBuilder} the {@link ValueToken} word representation will be appended.
+	 *            - {@link StringBuilder} the {@link ValueToken} word representation will be appended. Not
+	 *            <code>null</code>.
+	 * 
+	 * @param wordSeparator
+	 *            - the string that should be placed between words. Not <code>null</code>.
 	 * 
 	 */
 	protected AbstractTranscribingVisitor(final TranscriptionContext context, final StringBuilder builder,
 			final String wordSeparator) {
-		super(context);
 
+		this.context = Objects.requireNonNull(context, "Transcription context can not be null.");
 		this.builder = Objects.requireNonNull(builder, "Builder can not be null");
 
 		this.wordSeparator = Objects.requireNonNull(wordSeparator,
@@ -90,7 +102,8 @@ public abstract class AbstractTranscribingVisitor extends VoidVisitorAdaptor {
 	public Void visitMappedValue(MappedValueToken token) {
 
 		// mapped value tokens should be represented by a single string
-		final String word = context.asWord(token.getMappedValue());
+		final String word = context.asWord(token.getMappedValue(), GrammaticalNumber.SINGULAR, WordForm.DEFAULT);
+
 		builder.append(word);
 
 		return null;
@@ -137,23 +150,24 @@ public abstract class AbstractTranscribingVisitor extends VoidVisitorAdaptor {
 	}
 
 	/**
-	 * Visits the {@link DecimalValueToken} tokens.
+	 * Visits the {@link LiteralValueToken} tokens.
 	 * <p>
-	 * Will append the word representation for the value before the decimal point, then add the decimal point
-	 * representation, then the word representation for the value after the decimal point. *
-	 * <p>
-	 * Example: 100.12: "one hundred" "and" "twelve"
+	 * Will append the string literal is it present in the token.
 	 */
 	@Override
-	public Void visitDecimalValue(DecimalValueToken token) {
+	public Void visitLiteral(LiteralValueToken literalValueToken) {
 
-		// write the integer part
-		token.getIntegerPart().accept(this);
-		// write the decimal separator
-		builder.append(wordSeparator).append(token.getDecimalSeparator()).append(wordSeparator);
-		// write the fractional part
-		token.getFractionalPart().accept(this);
+		builder.append(literalValueToken.getValue());
 
+		return null;
+	}
+
+	/**
+	 * Visits {@link NullValueToken} tokens. This will append nothing to the builder.
+	 */
+	@Override
+	public Void visitNullValue(final NullValueToken token) {
+		// do nothing
 		return null;
 	}
 }

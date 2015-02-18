@@ -3,6 +3,7 @@ package com.mambu.number2words.internal.common.tokenization;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -12,8 +13,8 @@ import com.mambu.number2words.parsing.interfaces.NumberTokenizer;
 import com.mambu.number2words.parsing.interfaces.ValueMapping;
 import com.mambu.number2words.parsing.interfaces.ValueMapping.MappingType;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
-import com.mambu.number2words.parsing.tokenization.DecimalValueToken;
 import com.mambu.number2words.parsing.tokenization.GroupListToken;
+import com.mambu.number2words.parsing.tokenization.LiteralValueToken;
 import com.mambu.number2words.parsing.tokenization.MappedValueToken;
 import com.mambu.number2words.parsing.tokenization.NullValueToken;
 import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
@@ -65,6 +66,11 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 	private final List<T> subGroupQuantifiers;
 
 	/**
+	 * {@link Enum} class instance used to map numbers to words. This is required to gather group divisor information.
+	 */
+	private Class<T> enumClass;
+
+	/**
 	 * Default constructor.
 	 * 
 	 * @param enumClass
@@ -77,6 +83,8 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 	protected AbstractGroupedValuesTokenizer(final Class<T> enumClass, final String decimalPointSeparator) {
 
 		this.decimalPointSeparator = Objects.requireNonNull(decimalPointSeparator);
+
+		this.enumClass = enumClass;
 
 		// initialize the values that are dependent on the value mappings
 
@@ -118,12 +126,42 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 
 	/**
 	 * The value of the smallest group that can be used to arithmetically divide a number into multiple sections.
+	 * <p>
+	 * Based on the current and the previous group's quantifiers we <i>decide</i> the group size.
+	 * <p>
+	 * While for most languages the groups are of equals sizes, there are exceptions. For example, Spanish has million -
+	 * 10<sup>6</sup> and then billion - 10<sup>12</sup>. The 10<sup>6</sup> group range value must be handled in the
+	 * million group.
+	 * 
+	 * @param currentGroupIndex
+	 *            - the current group index. For example 0 is units, 1 can be thousands, 2 can be millions.
 	 * 
 	 * @see QuantifyingMappingsHelper#minGroupQuantifier(Class).
 	 * @return the value of the grouping divisor.
 	 */
-	protected BigInteger getGroupingDivisor() {
-		return groupingDivisor;
+	protected BigInteger getGroupingDivisor(final int currentGroupIndex) {
+
+		if (currentGroupIndex == 0 || currentGroupIndex >= maximumGroupIndex) {
+			// the first group is the minimum
+
+			return BigInteger.valueOf(QuantifyingMappingsHelper.minGroupQuantifier(enumClass).getValue());
+
+		} else {
+
+			// the "difference" between the following group and the current group is the divisor
+			// this is because some groups can be sometimes larger than others.
+			// for example, in Spanish, after 1 million (10^6) the next group is 1 billion (10^12)
+
+			// quantifiers are in reverse order
+			final List<T> quantifiers = QuantifyingMappingsHelper.groupQuantifiers(enumClass);
+
+			final int lastGroupIndex = quantifiers.size() - 1;
+
+			final Long currentGroupQuantifier = quantifiers.get(lastGroupIndex - currentGroupIndex + 1).getValue();
+			final Long nextGroupQuantifier = quantifiers.get(lastGroupIndex - currentGroupIndex).getValue();
+
+			return BigInteger.valueOf(nextGroupQuantifier / currentGroupQuantifier);
+		}
 	}
 
 	/**
@@ -212,17 +250,19 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 
 		// 1. tokenize the integer left of the decimal point
 		final BigInteger integerPart = number.toBigInteger();
-		ValueToken integerPartToken = tokenize(integerPart, getGroupingDivisor());
+		ValueToken integerPartToken = tokenize(integerPart);
 
 		if (number.scale() > 0) {
 
 			// 2. if there are digits to the right of the decimal point, tokenize them
 			final BigInteger fractionalPart = getFractional(number, integerPart);
-			final ValueToken fractionalPartToken = tokenize(fractionalPart, getGroupingDivisor());
+			final ValueToken fractionalPartToken = tokenize(fractionalPart);
 
-			// 3. merge the two parts
-			return new DecimalValueToken(integerPartToken, getDecimalSeparator(), fractionalPartToken);
+			// 3. merge the two parts with the decimal separator in-between
+			final ValueToken[] tokensForDecimalValue = new ValueToken[] { integerPartToken,
+					new LiteralValueToken(getDecimalSeparator()), fractionalPartToken };
 
+			return new GroupListToken(Arrays.asList(tokensForDecimalValue));
 		}
 
 		// no values to the right of the decimal point. return the integer token.
@@ -235,7 +275,7 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 	 * @param number
 	 * @return a {@link ValueToken} instance. Never <code>null</code>.
 	 */
-	private ValueToken tokenize(final BigInteger number, final BigInteger groupingDivisor) {
+	private ValueToken tokenize(final BigInteger number) {
 
 		List<ValueToken> groups;
 
@@ -244,7 +284,7 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 			groups = Collections.singletonList(mappedValue(0));
 		} else {
 			// tokenize non-zero
-			groups = tokenizeNonZeroValue(number, groupingDivisor);
+			groups = tokenizeNonZeroValue(number);
 
 		}
 
@@ -258,41 +298,9 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 	 *            - the number to tokenize.
 	 * @return a list of tokens. Never <code>null</code>.
 	 */
-	private List<ValueToken> tokenizeNonZeroValue(final BigInteger number, final BigInteger groupingDivisor) {
+	private List<ValueToken> tokenizeNonZeroValue(final BigInteger number) {
 
-		final List<ValueToken> groups = new ArrayList<ValueToken>();
-
-		BigInteger toTokenize = number;
-
-		final long longGroupDivisor = groupingDivisor.longValue();
-
-		int currentGroup = 0; // group index
-		long currentGroupQuantifier = 1; // group quantifier {1, 1_000, 1_000_000, etc...}
-
-		while (!toTokenize.equals(BigInteger.ZERO)) {
-
-			if (currentGroup == getMaximumGroupIndex() && toTokenize.compareTo(groupingDivisor) >= 0) {
-				// the number overflows over 999,999,999,999
-				// re-tokenize the overflow
-				addOverflowingNumberTokens(groups, toTokenize, groupingDivisor);
-
-				break;
-			} else {
-				// tokenize the current group and prepare the rest of the number for tokenization
-
-				// values[0] -> next number to tokenize
-				// values[1] -> the current group value (3 digits maximum)
-				BigInteger[] values = toTokenize.divideAndRemainder(groupingDivisor);
-
-				toTokenize = values[0];
-				BigInteger groupValue = values[1];
-
-				groups.add(parseGroup(groupValue.longValue(), currentGroupQuantifier));
-
-				++currentGroup;
-				currentGroupQuantifier *= longGroupDivisor;
-			}
-		}
+		final List<ValueToken> groups = parseLargeValue(number);
 
 		// the group tokens were added in reverse order:
 		// {UNIT, THOUSAND, MILLION, BILLION}, but should be {BILLION, MILLION, THOUSAND, UNIT}
@@ -304,6 +312,60 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 	}
 
 	/**
+	 * Parses a number (>0) and returns the list of tokens (in reverse order) that resulted.
+	 * 
+	 * @param number
+	 *            - the {@link BigInteger} to parse. Not <code>null</code>.
+	 * @return a list of {@link ValueToken}s in reverse order. Never <code>null</code>.
+	 */
+	private List<ValueToken> parseLargeValue(final BigInteger number) {
+
+		final List<ValueToken> groups = new ArrayList<ValueToken>();
+
+		BigInteger toTokenize = number;
+
+		int currentGroup = 0; // group index
+		long currentGroupQuantifier = 1; // group quantifier {1, 1_000, 1_000_000, etc...}
+
+		BigInteger localGroupingDivisor = getGroupingDivisor(currentGroup);
+		long longGroupDivisor = localGroupingDivisor.longValue();
+
+		while (!toTokenize.equals(BigInteger.ZERO)) {
+
+			if (currentGroup == getMaximumGroupIndex() && toTokenize.compareTo(localGroupingDivisor) >= 0) {
+				// the number overflows over 999,999,999,999
+				// re-tokenize the overflow
+				addOverflowingNumberTokens(groups, toTokenize);
+
+				break;
+			} else {
+				// tokenize the current group and prepare the rest of the number for tokenization
+
+				// values[0] -> next number to tokenize
+				// values[1] -> the current group value (3 digits maximum)
+				BigInteger[] values = toTokenize.divideAndRemainder(localGroupingDivisor);
+
+				toTokenize = values[0];
+				BigInteger groupValue = values[1];
+
+				if (groupValue.compareTo(groupingDivisor) >= 0) {
+					groups.add(suffixValue(tokenize(groupValue), longGroupDivisor));
+				} else {
+					groups.add(parseGroup(groupValue.longValue(), currentGroupQuantifier));
+				}
+
+				++currentGroup;
+				currentGroupQuantifier *= longGroupDivisor;
+
+				// update the divisor
+				localGroupingDivisor = getGroupingDivisor(currentGroup);
+				longGroupDivisor = localGroupingDivisor.longValue();
+			}
+		}
+		return groups;
+	}
+
+	/**
 	 * Adds the maximum group quantifier and then the tokenized number to the list.
 	 * 
 	 * @param groups
@@ -311,12 +373,11 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 	 * @param toTokenize
 	 *            - the number to tokenize.
 	 */
-	private void addOverflowingNumberTokens(final List<ValueToken> groups, BigInteger toTokenize,
-			BigInteger groupSeparator) {
+	private void addOverflowingNumberTokens(final List<ValueToken> groups, BigInteger toTokenize) {
 		// since the groups are added in reverse order
 		// the "trillion" token needs to be added before the rest of the number
 		groups.add(mappedValue(getMaximumGroupQuantifier().longValue()));
-		groups.add(tokenize(toTokenize, groupSeparator));
+		groups.add(tokenize(toTokenize));
 	}
 
 	/**
