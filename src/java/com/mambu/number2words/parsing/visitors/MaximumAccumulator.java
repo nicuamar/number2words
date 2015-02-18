@@ -10,7 +10,7 @@ import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
 import com.mambu.number2words.parsing.tokenization.SuffixedValueToken;
 
 /**
- * Visitor that retrieves maximum values form {@link ValueToken}s trees.
+ * Visitor that retrieves maximum values from {@link ValueToken}s trees.
  * 
  * @author aatasiei
  *
