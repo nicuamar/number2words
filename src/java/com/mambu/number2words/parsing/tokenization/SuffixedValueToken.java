@@ -50,4 +50,12 @@ public class SuffixedValueToken extends AbstractPairToken {
 	public <V> V accept(Visitor<V> visitor) {
 		return visitor.visitSuffixedValue(this);
 	}
+
+	/**
+	 * @return "["+ value + ", " + suffix + "]"
+	 */
+	@Override
+	public String toString() {
+		return "[" + getValueToken().toString() + ", " + getSuffixToken().toString() + "]";
+	}
 }

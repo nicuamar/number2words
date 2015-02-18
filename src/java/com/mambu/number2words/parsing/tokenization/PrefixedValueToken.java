@@ -50,4 +50,12 @@ public class PrefixedValueToken extends AbstractPairToken {
 	public <V> V accept(Visitor<V> visitor) {
 		return visitor.visitPrefixedValue(this);
 	}
+
+	/**
+	 * @return "["+ prefix + ", " + value + "]"
+	 */
+	@Override
+	public String toString() {
+		return "[" + getPrefixToken().toString() + ", " + getValueToken().toString() + "]";
+	}
 }
