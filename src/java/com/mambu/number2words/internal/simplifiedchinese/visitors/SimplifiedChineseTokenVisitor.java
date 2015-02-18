@@ -2,6 +2,10 @@ package com.mambu.number2words.internal.simplifiedchinese.visitors;
 
 import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
+import com.mambu.number2words.parsing.interfaces.WordValue.GrammaticalNumber;
+import com.mambu.number2words.parsing.interfaces.WordValue.WordForm;
+import com.mambu.number2words.parsing.tokenization.MappedValueToken;
+import com.mambu.number2words.parsing.tokenization.NullValueToken;
 import com.mambu.number2words.parsing.visitors.AbstractTranscribingVisitor;
 
 /**
@@ -22,6 +26,10 @@ public class SimplifiedChineseTokenVisitor extends AbstractTranscribingVisitor {
 	 */
 	private static final String WORD_SEPARATOR = "";
 
+	private boolean isFirstPrintableToken = true;
+
+	private boolean lastPrintWasNull = false;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -34,6 +42,23 @@ public class SimplifiedChineseTokenVisitor extends AbstractTranscribingVisitor {
 	 */
 	public SimplifiedChineseTokenVisitor(StringBuilder builder, TranscriptionContext context) {
 		super(context, builder, WORD_SEPARATOR);
+	}
+
+	@Override
+	public Void visitNullValue(NullValueToken token) {
+		if (!isFirstPrintableToken && !lastPrintWasNull) {
+			lastPrintWasNull = true;
+			isFirstPrintableToken = false;
+			builder.append(context.asWord(0L, GrammaticalNumber.SINGULAR, WordForm.DEFAULT));
+		}
+		return null;
+	}
+
+	@Override
+	public Void visitMappedValue(MappedValueToken token) {
+		isFirstPrintableToken = false;
+		lastPrintWasNull = false;
+		return super.visitMappedValue(token);
 	}
 
 }
