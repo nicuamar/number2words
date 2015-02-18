@@ -1,6 +1,10 @@
 package com.mambu.number2words.internal.simplifiedchinese.financial.tokenization;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import com.mambu.number2words.internal.common.tokenization.AbstractGroupedValuesTokenizer;
+import com.mambu.number2words.internal.common.tokenization.SequentialDigitsTokenizer;
 import com.mambu.number2words.internal.simplifiedchinese.financial.mapping.SimplifiedChineseFinancialNumberMapping;
 import com.mambu.number2words.parsing.interfaces.ValueToken;
 import com.mambu.number2words.parsing.tokenization.PrefixedValueToken;
@@ -26,12 +30,20 @@ public class SimplifiedChineseFinancialNumberTokenizer extends
 	 * String used to separate the numbers before and after the decimal point.
 	 */
 	private static final String DECIMAL_POINT_SEPARATOR = "点";
+	private SequentialDigitsTokenizer fractionalPartTokenizer;
 
 	/**
 	 * Default constructor.
 	 */
 	public SimplifiedChineseFinancialNumberTokenizer() {
 		super(SimplifiedChineseFinancialNumberMapping.class, DECIMAL_POINT_SEPARATOR);
+
+		this.fractionalPartTokenizer = new SequentialDigitsTokenizer();
+	}
+
+	@Override
+	protected ValueToken tokenizeFractionalPart(final BigInteger number) {
+		return fractionalPartTokenizer.tokenize(new BigDecimal(number));
 	}
 
 	/**

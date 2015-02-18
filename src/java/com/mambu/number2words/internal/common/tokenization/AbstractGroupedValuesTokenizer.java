@@ -256,7 +256,7 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 
 			// 2. if there are digits to the right of the decimal point, tokenize them
 			final BigInteger fractionalPart = getFractional(number, integerPart);
-			final ValueToken fractionalPartToken = tokenize(fractionalPart);
+			final ValueToken fractionalPartToken = tokenizeFractionalPart(fractionalPart);
 
 			// 3. merge the two parts with the decimal separator in-between
 			final ValueToken[] tokensForDecimalValue = new ValueToken[] { integerPartToken,
@@ -267,6 +267,10 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 
 		// no values to the right of the decimal point. return the integer token.
 		return integerPartToken;
+	}
+
+	protected ValueToken tokenizeFractionalPart(final BigInteger number) {
+		return tokenize(number);
 	}
 
 	/**
