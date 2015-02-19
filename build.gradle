@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
 
 group = 'com.mambu.resources'
-version = '1.0.2'
+version = '1.0.3-SNAPSHOT'
 def mavenArtifactId = 'number2words'
 
 sourceCompatibility = 1.7
