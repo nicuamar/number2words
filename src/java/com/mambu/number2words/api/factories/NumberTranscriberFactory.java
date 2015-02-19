@@ -11,6 +11,9 @@ import com.mambu.number2words.internal.english.tokenization.EnglishNumberTokeniz
 import com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseFinancialNumberTranscriber;
 import com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseFinancialNumberTranscriptionContext;
 import com.mambu.number2words.internal.simplifiedchinese.financial.tokenization.SimplifiedChineseFinancialNumberTokenizer;
+import com.mambu.number2words.internal.spanish.SpanishNumberTranscriber;
+import com.mambu.number2words.internal.spanish.SpanishNumberTranscriptionContext;
+import com.mambu.number2words.internal.spanish.tokenization.SpanishNumberTokenizer;
 import com.mambu.number2words.parsing.interfaces.NumberTokenizer;
 import com.mambu.number2words.parsing.interfaces.TranscriptionContext;
 
@@ -30,6 +33,7 @@ public final class NumberTranscriberFactory {
 	 */
 	private static final String ENGLISH_CODE = "en";
 	private static final String SIMPLIFIED_CHINESE_CODE = "zh";
+	private static final String SPANISH = "es";
 
 	/**
 	 * Mapping language codes to {@link NumberTokenizer}. Implementations should be thread safe.
@@ -51,6 +55,10 @@ public final class NumberTranscriberFactory {
 		// SIMPLIFIED CHINESE - Financial numbers
 		TOKENIZERS.put(SIMPLIFIED_CHINESE_CODE, new SimplifiedChineseFinancialNumberTokenizer());
 		CONTEXTS.put(SIMPLIFIED_CHINESE_CODE, new SimplifiedChineseFinancialNumberTranscriptionContext());
+
+		// SPANISH
+		TOKENIZERS.put(SPANISH, new SpanishNumberTokenizer());
+		CONTEXTS.put(SPANISH, new SpanishNumberTranscriptionContext());
 	}
 
 	/**
@@ -100,6 +108,10 @@ public final class NumberTranscriberFactory {
 		case SIMPLIFIED_CHINESE_CODE:
 			// for Simplified Chinese we use the financial numerals
 			return new SimplifiedChineseFinancialNumberTranscriber(TOKENIZERS.get(key), CONTEXTS.get(key));
+
+		case SPANISH:
+
+			return new SpanishNumberTranscriber(TOKENIZERS.get(key), CONTEXTS.get(key));
 		}
 
 		throw new IllegalArgumentException();
