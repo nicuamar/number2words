@@ -1,5 +1,36 @@
 package com.mambu.number2words.internal.simplifiedchinese.financial;
 
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._0;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._1;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._10;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._100;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._1000;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._1000_0000;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._1000_0000_0000;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._100_0000;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._100_0000_0000;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._10_0000;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._10_0000_0000;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._11;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._12;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._13;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._14;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._15;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._16;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._17;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._18;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._19;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._1_0000;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._1_0000_0000;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._1_0000_0000_0000;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._20;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._30;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._40;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._50;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._60;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._70;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._80;
+import static com.mambu.number2words.internal.simplifiedchinese.financial.SimplifiedChineseTestConstants._90;
 import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
@@ -47,7 +78,7 @@ public class SimplifiedChineseFinancialNumberTranscriberTest {
 
 	@Test
 	public void testTens() {
-		String[] expected = new String[] { "零", "拾", "贰拾", "叁拾", "肆拾", "伍拾", "陆拾", "柒拾", "捌拾", "玖拾" };
+		String[] expected = new String[] { _0, _10, _20, _30, _40, _50, _60, _70, _80, _90 };
 
 		for (int i = 0; i < expected.length; ++i) {
 			assertEquals(expected[i], transcriber.toWords(BigDecimal.TEN.multiply(new BigDecimal(i))));
@@ -56,7 +87,7 @@ public class SimplifiedChineseFinancialNumberTranscriberTest {
 
 	@Test
 	public void testTenToTwenty() {
-		String[] expected = new String[] { "拾", "拾壹", "拾贰", "拾叁", "拾肆", "拾伍", "拾陆", "拾柒", "拾捌", "拾玖" };
+		String[] expected = new String[] { _10, _11, _12, _13, _14, _15, _16, _17, _18, _19 };
 
 		for (int i = 0; i < expected.length; ++i) {
 			assertEquals(expected[i], transcriber.toWords(BigDecimal.TEN.add(new BigDecimal(i))));
@@ -66,8 +97,8 @@ public class SimplifiedChineseFinancialNumberTranscriberTest {
 	@Test
 	public void testPowersOfTen() {
 
-		String[] expected = new String[] { "壹", "拾", "壹佰", "壹仟", "壹萬", "拾萬", "壹佰萬", "壹仟萬", "壹億", "拾億", "壹佰億", "壹仟億",
-				"壹兆" };
+		String[] expected = new String[] { _1, _10, _100, _1000, _1_0000, _10_0000, _100_0000, _1000_0000,
+				_1_0000_0000, _10_0000_0000, _100_0000_0000, _1000_0000_0000, _1_0000_0000_0000 };
 
 		for (int i = 0; i < expected.length; ++i) {
 			assertEquals(expected[i], transcriber.toWords(BigDecimal.TEN.pow(i)));

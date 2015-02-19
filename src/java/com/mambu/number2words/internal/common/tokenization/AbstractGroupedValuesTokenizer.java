@@ -244,7 +244,12 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ValueToken tokenize(BigDecimal number) {
+	public ValueToken tokenize(final BigDecimal number) {
+
+		if (BigDecimal.ZERO.compareTo(number) > 0) {
+			// negative number
+			throw new IllegalArgumentException("Negative numbers are not supported");
+		}
 
 		// to tokenize the value we need to separate the number at the decimal point
 
