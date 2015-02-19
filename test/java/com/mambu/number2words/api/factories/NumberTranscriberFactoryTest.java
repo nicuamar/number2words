@@ -26,6 +26,12 @@ public class NumberTranscriberFactoryTest {
 				NumberTranscriberFactory.newTranscriber(Locale.SIMPLIFIED_CHINESE));
 	}
 
+	@Test
+	public void givenSpanishFactoryReturnsAnObject() {
+		assertNotNull("Factory returned null for " + Locale.forLanguageTag("es").getLanguage(),
+				NumberTranscriberFactory.newTranscriber(Locale.forLanguageTag("es")));
+	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void givenInvalidLocaleFactoryThrows() {
 		NumberTranscriberFactory.newTranscriber(Locale.forLanguageTag("ro"));
