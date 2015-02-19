@@ -244,7 +244,12 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ValueToken tokenize(BigDecimal number) {
+	public ValueToken tokenize(final BigDecimal number) {
+
+		if (BigDecimal.ZERO.compareTo(number) > 0) {
+			// negative number
+			throw new IllegalArgumentException("Negative numbers are not supported");
+		}
 
 		// to tokenize the value we need to separate the number at the decimal point
 
@@ -252,21 +257,38 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 		final BigInteger integerPart = number.toBigInteger();
 		ValueToken integerPartToken = tokenize(integerPart);
 
+		ValueToken result = integerPartToken;
+
 		if (number.scale() > 0) {
 
 			// 2. if there are digits to the right of the decimal point, tokenize them
 			final BigInteger fractionalPart = getFractional(number, integerPart);
-			final ValueToken fractionalPartToken = tokenize(fractionalPart);
+			final ValueToken fractionalPartToken = tokenizeFractionalPart(fractionalPart);
 
 			// 3. merge the two parts with the decimal separator in-between
 			final ValueToken[] tokensForDecimalValue = new ValueToken[] { integerPartToken,
 					new LiteralValueToken(getDecimalSeparator()), fractionalPartToken };
 
-			return new GroupListToken(Arrays.asList(tokensForDecimalValue));
+			result = new GroupListToken(Arrays.asList(tokensForDecimalValue));
 		}
 
 		// no values to the right of the decimal point. return the integer token.
-		return integerPartToken;
+		return result;
+	}
+
+	/**
+	 * Tokenizes the fractional part of the number passed to {@link #tokenize(BigDecimal)}.
+	 * <p>
+	 * By default the same process of tokenization used for the integer part is used for the fractional part as well.
+	 * <p>
+	 * Override this if a special tokenizing process is required for the digits after the decimal point.
+	 * 
+	 * @param number
+	 *            - the number to tokenize. Not <code>null</code>.
+	 * @return a {@link ValueToken} instance. Never <code>null</code>.
+	 */
+	protected ValueToken tokenizeFractionalPart(final BigInteger number) {
+		return tokenize(number);
 	}
 
 	/**
@@ -308,7 +330,7 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 			Collections.reverse(groups);
 		}
 
-		return groups;
+		return postProcessGroups(groups);
 	}
 
 	/**
@@ -349,6 +371,7 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 				BigInteger groupValue = values[1];
 
 				if (groupValue.compareTo(groupingDivisor) >= 0) {
+					// this is for groups that are larger than the default
 					groups.add(suffixValue(tokenize(groupValue), longGroupDivisor));
 				} else {
 					groups.add(parseGroup(groupValue.longValue(), currentGroupQuantifier));
@@ -363,6 +386,22 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 			}
 		}
 		return groups;
+	}
+
+	/**
+	 * Post processes a list of tokens representing groups before being returned as a {@link GroupListToken}. This
+	 * happens as a result of parsing a non-zero positive integer value.
+	 * <p>
+	 * By default this method does nothing.
+	 * <p>
+	 * Override this if you need to post process some group values.
+	 * 
+	 * @param groups
+	 *            the group list. Not <code>null</code>.
+	 * @return the list of group tokens, after being processed. Never <code>null</code>.
+	 */
+	protected List<ValueToken> postProcessGroups(final List<ValueToken> groups) {
+		return Objects.requireNonNull(groups);
 	}
 
 	/**
