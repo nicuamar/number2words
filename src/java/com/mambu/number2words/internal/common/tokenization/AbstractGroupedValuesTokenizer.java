@@ -464,7 +464,7 @@ public abstract class AbstractGroupedValuesTokenizer<T extends Enum<T> & ValueMa
 
 	/**
 	 * Shortcut to creating a new {@link ValueToken} that has {@code quantifierValue} as a suffix for {@code groupValue}
-	 * . This creates tokens that can be used when tokenizing <i>groups</i> (i.e. "one thousand" as 1000, "壹萬" as 10000,
+	 * . This creates tokens that can be used when tokenizing <i>groups</i> (i.e. "one thousand" as 1000, "万" as 10000,
 	 * etc..)
 	 * 
 	 * @param groupValue

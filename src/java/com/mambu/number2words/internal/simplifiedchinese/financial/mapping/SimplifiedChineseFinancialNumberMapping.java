@@ -25,7 +25,7 @@ public enum SimplifiedChineseFinancialNumberMapping implements ValueMapping {
 
 	THOUSAND(1000, "仟", MappingType.SUBGROUP_QUANTIFIER),
 
-	TEN_THOUSAND(1_0000, "萬", MappingType.GROUP_QUANTIFIER),
+	TEN_THOUSAND(1_0000, "万", MappingType.GROUP_QUANTIFIER),
 
 	HUNDRED_MILLION(1_0000_0000, "億", MappingType.GROUP_QUANTIFIER),
 
@@ -52,7 +52,7 @@ public enum SimplifiedChineseFinancialNumberMapping implements ValueMapping {
 	 */
 	private WordValue word;
 	/**
-	 * True, if the instance represents a group. For example: "萬" (10,000), "億" (100,000,000), etc...
+	 * True, if the instance represents a group. For example: "万" (10,000), "億" (100,000,000), etc...
 	 * <p>
 	 * Chinese uses groups of 4 digits.
 	 */

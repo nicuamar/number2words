@@ -106,7 +106,7 @@ public class SimplifiedChineseFinancialNumberTokenizer extends
 		int zeroesFound = 0;
 
 		// empty subgroups need to be marked and remembered as zeroes need to be written by the visitor
-		// for example: for 10010 ~ 壹萬[零]壹拾 there is a zero (零) before 10.
+		// for example: for 10010 ~ 壹万[零]壹拾 there is a zero (零) before 10.
 		// Only one zero (零) is written per group of zeroes in the number.
 		//
 		// NullValueTokens will be used to mark empty groups.

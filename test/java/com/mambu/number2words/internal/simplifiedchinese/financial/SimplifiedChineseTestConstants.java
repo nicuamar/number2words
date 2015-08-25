@@ -11,7 +11,7 @@ public final class SimplifiedChineseTestConstants {
 	private static final String __10 = "拾";
 	private static final String __100 = "佰";
 	private static final String __1000 = "仟";
-	private static final String __10000 = "萬";
+	private static final String __10000 = "万";
 	private static final String __100000000 = "億";
 	private static final String __1000000000000 = "兆";
 
