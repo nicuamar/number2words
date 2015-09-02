@@ -24,7 +24,7 @@ public class EnglishNumberTranscriptionContextTest {
 	private Visitor<Void> visitor;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		builder = new StringBuilder();
 		visitor = new EnglishTokenVisitor(builder, evaluator);
 	}

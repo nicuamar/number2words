@@ -29,7 +29,7 @@ public class SpanishNumberTranscriberTest {
 	private DecimalFormat decimalFormat;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 
 		// Create a DecimalFormat that fits your requirements
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
