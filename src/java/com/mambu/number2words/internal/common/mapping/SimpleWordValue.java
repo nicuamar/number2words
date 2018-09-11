@@ -144,14 +144,22 @@ public class SimpleWordValue implements WordValue {
 			throw new IllegalArgumentException(values.toString() + " does not contain all the grammatical numbers");
 		}
 
-		for (final GrammaticalNumber number : values.keySet()) {
+// Left with intention here
+//		for (final GrammaticalNumber number : values.keySet()) {
+//
+//			if (values.get(number).size() != WordForm.values().length) {
+//
+//				throw new IllegalArgumentException(values.get(number).toString()
+//						+ " does not contain all the word forms");
+//			}
+//		}
 
-			if (values.get(number).size() != WordForm.values().length) {
-
-				throw new IllegalArgumentException(values.get(number).toString()
-						+ " does not contain all the word forms");
-			}
-		}
+		values.entrySet().stream().map(Map.Entry::getValue)
+				.filter(valueMap -> valueMap.size() != WordForm.values().length)
+				.findFirst()
+				.ifPresent(value -> {
+					throw new IllegalArgumentException(value.toString() + " does not contain all the word forms");
+				});
 	}
 
 	/**

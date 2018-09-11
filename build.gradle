@@ -22,7 +22,7 @@ group = 'com.mambu.resources'
 version = '1.0.3'
 def mavenArtifactId = 'number2words'
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
 repositories {
 	jcenter()
